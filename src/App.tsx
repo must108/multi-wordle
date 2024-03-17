@@ -1,7 +1,6 @@
 import React from 'react';
 import Words from './components/handleWord';
-import Keyboard from './components/keyBoard';
-import keys from './data/keys';
+import PlayBoard from './components/playBoard';
 
 function App() {
   const word = Words();
@@ -9,7 +8,7 @@ function App() {
   return (
     <>
       <h1>{word}</h1>
-      <Keyboard keys={keys} />
+      <PlayBoard />
     </>
   );
 }

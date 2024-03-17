@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
+$kbcolor: #818384;
+$letterboard: #3A3A3C;
+
 body {
 	background-color: #333;
   	color: white;
@@ -17,7 +20,7 @@ body {
 	}
 
 	.keyboard-button {
-		background-color: #818384;
+		background-color: $kbcolor;
 		font-size: 1rem;
 		font-weight: 700;
 		padding: 0.5rem;
@@ -29,5 +32,37 @@ body {
 
 	.second-row {
 		margin: 0.5rem 0;
+	}
+
+	.i-key {
+		padding: 0.5rem 0.7rem;
+	}
+}
+
+.game-board {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+
+	.letter-box {
+		border: 2px solid gray;
+		border-radius: 3px;
+		margin: 2px;
+		font-size: 2.5rem;
+		font-weight: 700;
+		height: 3rem;
+		width: 3rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-transform: uppercase;
+	}
+
+	.filled-box {
+		border: 2px solid black;
+	}
+
+	.letter-row {
+		display: flex;
 	}
 }

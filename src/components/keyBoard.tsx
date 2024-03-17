@@ -16,22 +16,31 @@ export default function Keyboard({ keys }: KeyboardProps){
         setLetters(convertKeys);
     }, [keys]);
 
+    const sendLetter = (letter: string) => {
+        const event = new CustomEvent('letterSent', {
+            detail: { letter }
+        });
+        window.dispatchEvent(event);
+    }
+
     return (
         <>
             <div className="keyboard">
                 <div className="first-row">
                     {letters && letters[0].map((keyObj, index) => (
-                        <div key={index} className="keyboard-button">{keyObj.key}</div>
+                        <div key={index} 
+                        className={`keyboard-button ${keyObj.key === 'i' ? 'i-key' : ''}`} 
+                        onClick={() => sendLetter(keyObj.key)}>{keyObj.key}</div>
                     ))}
                 </div>
                 <div className="second-row">
                     {letters && letters[1].map((keyObj, index) => (
-                            <div key={index} className="keyboard-button">{keyObj.key}</div>
+                            <div key={index} className="keyboard-button" onClick={() => sendLetter(keyObj.key)}>{keyObj.key}</div>
                     ))}
                 </div>
                 <div className="third-row">
                     {letters && letters[2].map((keyObj, index) => (
-                        <div key={index} className="keyboard-button">{keyObj.key}</div>
+                        <div key={index} className="keyboard-button" onClick={() => sendLetter(keyObj.key)}>{keyObj.key}</div>
                     ))}
                 </div>
             </div>

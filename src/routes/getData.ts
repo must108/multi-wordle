@@ -11,6 +11,7 @@ const app = express();
 const port = process.env.SERVER_PORT || 3001;
 const FOURNUM = 3111;
 const FIVENUM = 2315;
+const SIXNUM = 2487;
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -45,6 +46,8 @@ async function fetchData(wordType: any) {
         num = randNum(FOURNUM);
     } else if(wordType === 'fiveletter') {
         num = randNum(FIVENUM);
+    } else if(wordType === 'sixletter') {
+        num = randNum(SIXNUM);
     }
 
     try {
