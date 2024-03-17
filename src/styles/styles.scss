@@ -1,6 +1,33 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 body {
-  background-color: #333;
-  color: white;
+	background-color: #333;
+  	color: white;
+  	font-family: 'Inter', sans-serif;
+}	
+
+.keyboard {
+	margin: 1rem 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	div {
+		display: flex;
+	}
+
+	.keyboard-button {
+		background-color: #818384;
+		font-size: 1rem;
+		font-weight: 700;
+		padding: 0.5rem;
+		margin: 0 2px;
+		cursor: pointer;
+		text-transform: uppercase;
+		border-radius: 3px;
+	}
+
+	.second-row {
+		margin: 0.5rem 0;
+	}
 }

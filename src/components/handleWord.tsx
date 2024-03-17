@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import { getWord } from '../routes/getWord'
 
+let word = "";
+
 export default function Words() {
-    const [word, setWord] = useState("");
+    const [retWord, setWord] = useState("");
 
     useEffect(() => {
         async function fetchWord() {
@@ -16,10 +18,6 @@ export default function Words() {
         fetchWord();
     }, []);
 
-    return (
-        <>
-            <h1>Word:</h1>
-            <h1>{word}</h1>
-        </>
-    )
+    word = retWord;
+    return word;
 }

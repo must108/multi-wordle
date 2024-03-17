@@ -5,10 +5,10 @@ import { Pool } from 'pg';
 import dotenv from 'dotenv';
 import { randNum } from './getWord';
 
-dotenv.config({ path: '.env.development.local' });
+dotenv.config({ path: '.env' });
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.SERVER_PORT || 3001;
 
 app.use(bodyParser.json());
 app.use(cors());
