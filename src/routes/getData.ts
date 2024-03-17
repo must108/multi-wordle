@@ -9,6 +9,8 @@ dotenv.config({ path: '.env' });
 
 const app = express();
 const port = process.env.SERVER_PORT || 3001;
+const FOURNUM = 3111;
+const FIVENUM = 2315;
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -37,7 +39,13 @@ async function query(text: string, params: any[]) {
 }
 
 async function fetchData(wordType: any) {
-    const num = randNum(2315);
+    let num;
+
+    if(wordType === 'fourletter') {
+        num = randNum(FOURNUM);
+    } else if(wordType === 'fiveletter') {
+        num = randNum(FIVENUM);
+    }
 
     try {
         const result = await query(
