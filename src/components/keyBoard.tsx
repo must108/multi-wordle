@@ -28,6 +28,11 @@ export default function Keyboard({ keys }: KeyboardProps){
         window.dispatchEvent(event);
     }
 
+    const enterKey = () => {
+        const event = new CustomEvent('enterPressed');
+        window.dispatchEvent(event);
+    }
+
     return (
         <>
             <div className="keyboard">
@@ -44,7 +49,7 @@ export default function Keyboard({ keys }: KeyboardProps){
                     ))}
                 </div>
                 <div className="third-row">
-                    <div className="keyboard-button">ENTER</div>
+                    <div className="keyboard-button" onClick={() => enterKey()}>ENTER</div>
                     {letters && letters[2].map((keyObj, index) => (
                         <div key={index} className="keyboard-button" onClick={() => sendLetter(keyObj.key)}>{keyObj.key}</div>
                     ))}
