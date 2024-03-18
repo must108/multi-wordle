@@ -24,7 +24,7 @@ body {
 		background-color: $kbcolor;
 		font-size: 1rem;
 		font-weight: 700;
-		padding: 0.5rem;
+		padding: 0.8rem;
 		margin: 0 2px;
 		cursor: pointer;
 		text-transform: uppercase;
@@ -42,7 +42,7 @@ body {
 	}
 
 	.i-key {
-		padding: 0.5rem 0.7rem;
+		padding: 0.8rem 1rem;
 	}
 }
 
@@ -55,10 +55,10 @@ body {
 		border: 2px solid gray;
 		border-radius: 3px;
 		margin: 2px;
-		font-size: 2.5rem;
+		font-size: 1.9rem;
 		font-weight: 700;
-		height: 3rem;
-		width: 3rem;
+		height: 3.5rem;
+		width: 3.5rem;
 		display: flex;
 		user-select: none;
 		justify-content: center;

@@ -7,7 +7,7 @@ export default function Board() {
     return (
         <div className="game-board">
             {[...Array(NUM_GUESSES)].map((_, i) => (
-                <Row />
+                <Row key={i} />
             ))}
         </div>
     )
@@ -15,27 +15,29 @@ export default function Board() {
 
 function Row() {
     const [letters, setLetters] = useState<string[]>([]);
-    const [index, setIndex] = useState(0);
+    const [indexInRow, setIndexInRow] = useState(0);
 
     useEffect(() => {
         const handleLetter = (e: CustomEvent) => {
-            const newLetter = e.detail.letter;
-            setLetters(prevLetters => [...prevLetters, newLetter]);
-            setIndex(prevIndex => prevIndex + 1);
+            if(letters.length <= 4) {
+                const newLetter = e.detail.letter;
+                setLetters(prevLetters => [...prevLetters, newLetter]);
+                setIndexInRow(prevIndex => prevIndex + 1);
+            }
         };
 
         const handleKeyboardLetter = (event: KeyboardEvent) => {
             const newLetter = event.key;
-            if(newLetter.length === 1 && newLetter.match(/[a-z]/gi)) {
+            if(newLetter.length === 1 && newLetter.match(/[a-z]/gi) && letters.length <= 4) {
                 setLetters(prevLetters => [...prevLetters, newLetter]);
-                setIndex(prevIndex => prevIndex + 1);
+                setIndexInRow(prevIndex => prevIndex + 1);
             }
         };
 
         const delLetter = () => {
             if(letters.length > 0) {
                 setLetters(prevLetters => prevLetters.slice(0, -1));
-                setIndex(prevIndex => Math.max(prevIndex - 1, 0));
+                setIndexInRow(prevIndex => Math.max(prevIndex - 1, 0));
             }
         }
 
@@ -59,11 +61,11 @@ function Row() {
         };
     }, [letters]);
 
-    return (
-        <div className="letter-row">
-            {[...Array(NUM_BOXES)].map((_, i) => (
-                <div key={i} className="letter-box">{letters[i]}</div>
-            ))}
-        </div>
-    );
+        return (
+            <div className="letter-row">
+                {[...Array(NUM_BOXES)].map((_, i) => (
+                    <div key={i} className="letter-box">{letters[i]}</div>
+                ))}
+            </div>
+        );
 }
