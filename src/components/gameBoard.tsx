@@ -6,29 +6,63 @@ const NUM_BOXES = 5;
 export default function Board() {
     return (
         <div className="game-board">
-            {[...Array(NUM_GUESSES)].map((_, index) => (
-                <Row key={index} showLetter = {index === 0} />
+            {[...Array(NUM_GUESSES)].map((_, i) => (
+                <Row />
             ))}
         </div>
     )
 }
 
-function Row({ showLetter }: any) {
-    const [letter, setLetter] = useState(-1);
+function Row() {
+    const [letters, setLetters] = useState<string[]>([]);
+    const [index, setIndex] = useState(0);
 
     useEffect(() => {
-        if(showLetter) {
-            const index = 0;
-            setLetter(index);
+        const handleLetter = (e: CustomEvent) => {
+            const newLetter = e.detail.letter;
+            setLetters(prevLetters => [...prevLetters, newLetter]);
+            setIndex(prevIndex => prevIndex + 1);
+        };
+
+        const handleKeyboardLetter = (event: KeyboardEvent) => {
+            const newLetter = event.key;
+            if(newLetter.length === 1 && newLetter.match(/[a-z]/gi)) {
+                setLetters(prevLetters => [...prevLetters, newLetter]);
+                setIndex(prevIndex => prevIndex + 1);
+            }
+        };
+
+        const delLetter = () => {
+            if(letters.length > 0) {
+                setLetters(prevLetters => prevLetters.slice(0, -1));
+                setIndex(prevIndex => Math.max(prevIndex - 1, 0));
+            }
         }
-    }, [showLetter]);
+
+        const backSpace = (e: KeyboardEvent) => {
+            if(e.key === 'Backspace') {
+                e.preventDefault();
+                delLetter();
+            }
+        }
+
+        window.addEventListener('letterSent', handleLetter as EventListener);
+        window.addEventListener('deleteLetter', delLetter as EventListener);
+        window.addEventListener('keydown', handleKeyboardLetter);
+        window.addEventListener('keydown', backSpace);
+
+        return () => {
+            window.removeEventListener('letterSent', handleLetter as EventListener);
+            window.removeEventListener('deleteLetter', delLetter as EventListener);
+            window.removeEventListener('keydown', handleKeyboardLetter);
+            window.removeEventListener('keydown', backSpace);
+        };
+    }, [letters]);
 
     return (
         <div className="letter-row">
-            {[...Array(NUM_BOXES)].map((_, index) => (
-                <div key={index} className="letter-box">
-                    {index === letter ? 'M' : null}    
-                </div>
+            {[...Array(NUM_BOXES)].map((_, i) => (
+                <div key={i} className="letter-box">{letters[i]}</div>
             ))}
         </div>
     );

@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 $kbcolor: #818384;
+$kbdcolor: #525455;
 $letterboard: #3A3A3C;
 
 body {
@@ -27,7 +28,13 @@ body {
 		margin: 0 2px;
 		cursor: pointer;
 		text-transform: uppercase;
+		user-select: none;
 		border-radius: 3px;
+		transition: 0.3s;
+
+		&:hover {
+			background-color: $kbdcolor;
+		}
 	}
 
 	.second-row {
@@ -53,6 +60,7 @@ body {
 		height: 3rem;
 		width: 3rem;
 		display: flex;
+		user-select: none;
 		justify-content: center;
 		align-items: center;
 		text-transform: uppercase;
