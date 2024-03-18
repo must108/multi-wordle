@@ -1,10 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const NUM_GUESSES = 6;
 const NUM_BOXES = 5;
 
 export default function Board() {
     const [active, setActive] = useState(1);
+    const activeRef = useRef(active);
+
+    useEffect(() => {
+        activeRef.current = active;
+    }, [active]);
 
     useEffect(() => {
         const handleEnter = (e: CustomEvent) => {
@@ -20,12 +25,12 @@ export default function Board() {
 
     return (
         <div className="game-board">
-            <Row isActive={active === 1} />
-            <Row isActive={active === 2} />
-            <Row isActive={active === 3} />
-            <Row isActive={active === 4} />
-            <Row isActive={active === 5} />
-            <Row isActive={active === 6} />
+            <Row isActive={activeRef.current === 1} />
+            <Row isActive={activeRef.current === 2} />
+            <Row isActive={activeRef.current === 3} />
+            <Row isActive={activeRef.current === 4} />
+            <Row isActive={activeRef.current === 5} />
+            <Row isActive={activeRef.current === 6} />
         </div>
     )
 }
