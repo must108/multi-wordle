@@ -12,32 +12,38 @@ export default function Board() {
     }, [active]);
 
     useEffect(() => {
-        const handleEnter = (e: CustomEvent) => {
-            setActive(prevActive => prevActive + 1);
+        const handleEnter = () => {
+            setActive(prevActive => Math.min(prevActive + 1, NUM_GUESSES));
+            activeRef.current = activeRef.current + 1;
         };
 
+        const enterKey = (e: KeyboardEvent) => {
+            if(e.key === 'Enter') {
+                e.preventDefault();
+                handleEnter();
+            }
+        }
+
         window.addEventListener('enterPressed', handleEnter as EventListener);
+        window.addEventListener('keyup', enterKey as EventListener);
 
         return () => {
             window.removeEventListener('enterPressed', handleEnter as EventListener);
+            window.removeEventListener('keyup', enterKey as EventListener);
         }
     }, []);
 
     return (
         <div className="game-board">
-            <Row isActive={activeRef.current === 1} />
-            <Row isActive={activeRef.current === 2} />
-            <Row isActive={activeRef.current === 3} />
-            <Row isActive={activeRef.current === 4} />
-            <Row isActive={activeRef.current === 5} />
-            <Row isActive={activeRef.current === 6} />
+            {[...Array(NUM_GUESSES)].map((_, i) => (
+                <Row key={i} isActive={activeRef.current === i + 1} />
+            ))}
         </div>
     )
 }
 
 function Row({ isActive }: any) {
     const [letters, setLetters] = useState<string[]>([]);
-    const [indexInRow, setIndexInRow] = useState(0);
 
     useEffect(() => {
         if(isActive) {
@@ -45,7 +51,6 @@ function Row({ isActive }: any) {
                 if(letters.length <= 4) {
                     const newLetter = e.detail.letter;
                     setLetters(prevLetters => [...prevLetters, newLetter]);
-                    setIndexInRow(prevIndex => prevIndex + 1);
                 }
             };
     
@@ -53,14 +58,12 @@ function Row({ isActive }: any) {
                 const newLetter = event.key;
                 if(newLetter.length === 1 && newLetter.match(/[a-z]/gi) && letters.length <= 4) {
                     setLetters(prevLetters => [...prevLetters, newLetter]);
-                    setIndexInRow(prevIndex => prevIndex + 1);
                 }
             };
     
             const delLetter = () => {
                 if(letters.length > 0) {
                     setLetters(prevLetters => prevLetters.slice(0, -1));
-                    setIndexInRow(prevIndex => Math.max(prevIndex - 1, 0));
                 }
             }
     
@@ -83,7 +86,7 @@ function Row({ isActive }: any) {
                 window.removeEventListener('keydown', backSpace);
             };
         }
-    }, [letters]);
+    }, [letters, isActive]);
 
         return (
             <div className="letter-row">
