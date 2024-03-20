@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { getWord } from '../routes/getWord'
+import { getWord, getAllWords } from '../routes/getWord'
 
 let word = "";
+let words: string[] = [];
 
-export default function Words() {
+export function Words() {
     const [retWord, setWord] = useState("");
 
     useEffect(() => {
@@ -21,3 +22,21 @@ export default function Words() {
     word = retWord;
     return word;
 }
+
+export function WordArray() {
+    const [retWords, setWords] = useState([]);
+
+    useEffect(() => {
+        async function fetchWords() {
+            try {
+                const res = await getAllWords();
+                setWords(res);
+            } catch (error) {
+                console.error('error fetching word: ', error);
+            }
+        }
+        fetchWords();
+    }, []);
+
+    return retWords;
+} // ! THIS FUNCTION MIGHT NOT WORK!

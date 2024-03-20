@@ -1,4 +1,5 @@
 const getURL = 'http://localhost:3001/api/getData?wordSize=fiveletter'
+const getAll = 'http://localhost:3001/api/getAll?wordSize=fiveletter'
 
 export function randNum(max: number) {
     return Math.floor(Math.random() * max) + 1;
@@ -20,6 +21,21 @@ const fetchData = async (url: any) => {
         throw err;
     }
 };
+
+export async function getAllWords() {
+
+    try {
+        const res = await fetchData(getAll);
+        if(res && res.length > 0) {
+            return res;
+        } else {
+            throw new Error('no word found!');
+        }
+    } catch (error) {
+        console.error('error in fetch data: ', error);
+        throw error;
+    }
+} // ! THIS FUNCTION MIGHT NEED UPDATING!
 
 export async function getWord() {
     try {

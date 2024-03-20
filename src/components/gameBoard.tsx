@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Words, WordArray } from './handleWord';
 
 const NUM_GUESSES = 6;
 const NUM_BOXES = 5;
@@ -17,19 +18,10 @@ export default function Board() {
             activeRef.current = activeRef.current + 1;
         };
 
-        const enterKey = (e: KeyboardEvent) => {
-            if(e.key === 'Enter') {
-                e.preventDefault();
-                handleEnter();
-            }
-        }
-
-        window.addEventListener('enterPressed', handleEnter as EventListener);
-        window.addEventListener('keyup', enterKey as EventListener);
+        window.addEventListener('sendEnter', handleEnter as EventListener);
 
         return () => {
-            window.removeEventListener('enterPressed', handleEnter as EventListener);
-            window.removeEventListener('keyup', enterKey as EventListener);
+            window.removeEventListener('sendEnter', handleEnter as EventListener);
         }
     }, []);
 
@@ -56,7 +48,7 @@ function Row({ isActive }: any) {
     
             const handleKeyboardLetter = (event: KeyboardEvent) => {
                 const newLetter = event.key;
-                if(newLetter.length === 1 && newLetter.match(/[a-z]/gi) && letters.length <= 4) {
+                if(newLetter.length === 1 && newLetter.match(/[a-z]/gi) && letters.length <= (NUM_BOXES - 1)) {
                     setLetters(prevLetters => [...prevLetters, newLetter]);
                 }
             };
@@ -73,17 +65,37 @@ function Row({ isActive }: any) {
                     delLetter();
                 }
             }
+
+            const sendEnter = () => {
+                if(letters.length > (NUM_BOXES - 1)) {
+                    const event = new CustomEvent('sendEnter');
+                    window.dispatchEvent(event);
+                }
+            }
+
+            const sendEnterKey = (e: KeyboardEvent) => {
+                if(letters.length > (NUM_BOXES - 1)) {
+                    if(e.key === 'Enter') {
+                        const event = new CustomEvent('sendEnter');
+                        window.dispatchEvent(event);
+                    }
+                }
+            }
     
             window.addEventListener('letterSent', handleLetter as EventListener);
             window.addEventListener('deleteLetter', delLetter as EventListener);
             window.addEventListener('keydown', handleKeyboardLetter);
             window.addEventListener('keydown', backSpace);
+            window.addEventListener('enterPressed', sendEnter as EventListener);
+            window.addEventListener('keyup', sendEnterKey as EventListener);
     
             return () => {
                 window.removeEventListener('letterSent', handleLetter as EventListener);
                 window.removeEventListener('deleteLetter', delLetter as EventListener);
                 window.removeEventListener('keydown', handleKeyboardLetter);
                 window.removeEventListener('keydown', backSpace);
+                window.removeEventListener('enterPressed', sendEnter as EventListener);
+                window.removeEventListener('keyup', sendEnterKey as EventListener);
             };
         }
     }, [letters, isActive]);

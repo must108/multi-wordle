@@ -1,5 +1,5 @@
 import React from 'react';
-import Words from './components/handleWord';
+import { Words } from './components/handleWord';
 import PlayBoard from './components/playBoard';
 
 function App() {

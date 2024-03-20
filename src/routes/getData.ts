@@ -60,6 +60,17 @@ async function fetchData(wordType: any) {
     }
 }
 
+async function fetchAllData(wordType: any) {
+    try {
+        const result = await query (
+            `select words from ${wordType};`, []);
+        return result.rows;
+    } catch (error) {
+        console.error('error fetching data: ', error);
+        throw error;
+    }
+}
+
 app.get('/api/getData', async (req, res) => {
     const wordType = req.query.wordSize;
 
@@ -67,12 +78,26 @@ app.get('/api/getData', async (req, res) => {
         const data = await fetchData(wordType);
         res.header('Content-Type', 'application/json');
         res.status(200).json(data);
-        console.log('data fetched and sent');
+        console.log('data fetched and sent (from getData)');
     } catch(error) {
         console.error('error fetching data: ', error);
         res.status(500).json({ error: 'failed to fetch data' });
     }
 });
+
+app.get('/api/getAll', async (req, res) => {
+    const wordType = req.query.wordSize;
+
+    try {
+        const data = await fetchAllData(wordType);
+        res.header('Content-Type', 'application/json');
+        res.status(200).json(data);
+        console.log('data fetched and sent (from getAll)');
+    } catch (error) {
+        console.error('error fetching data: ', error);
+        res.status(500).json({ error: 'failed to fetch data ' });
+    }
+})
 
 app.listen(port, () => {
     console.log(`server listening at http://localhost:${port}`);
