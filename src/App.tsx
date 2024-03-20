@@ -1,6 +1,6 @@
 import React from 'react';
-import { Words } from './components/handleWord';
 import PlayBoard from './components/playBoard';
+import { Words } from './components/handleWord';
 
 function App() {
   const word = Words();

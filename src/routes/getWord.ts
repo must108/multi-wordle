@@ -27,21 +27,27 @@ export async function getAllWords() {
     try {
         const res = await fetchData(getAll);
         if(res && res.length > 0) {
-            return res;
+            let words: string[] = [];
+
+            for(let i = 0; i < res.length; i++) {
+                words[i] = res[i].words;
+            }
+
+            return words;
         } else {
             throw new Error('no word found!');
         }
     } catch (error) {
-        console.error('error in fetch data: ', error);
+        console.error('error in fetch data: (getAllWords)', error);
         throw error;
     }
-} // ! THIS FUNCTION MIGHT NEED UPDATING!
+} 
 
 export async function getWord() {
     try {
         const res = await fetchData(getURL);
         if(res && res.length > 0) {
-            return res[0].words;
+            return res[0].words
         } else {
             throw new Error('no word found!');
         }

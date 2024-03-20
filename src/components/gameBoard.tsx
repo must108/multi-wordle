@@ -1,8 +1,29 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Words, WordArray } from './handleWord';
+import { WordArray } from './handleWord';
 
 const NUM_GUESSES = 6;
 const NUM_BOXES = 5;
+const WORDS_LEN = 2315;
+
+function binarySearch(arr: string[], item: string, size: number) {
+    let left: number = 0;
+    let right: number = size - 1;
+    let mid: number = 0;
+
+    while(left <= right) {
+        mid = Math.floor((left + right) / 2);
+
+        if(arr[mid] === item) {
+            return mid;
+        } else if (item[0] > arr[mid][0]) {
+            left = mid + 1;
+        } else if (item[0] < arr[mid][0]) {
+            right = mid - 1;
+        }
+    }
+
+    return -1;
+}
 
 export default function Board() {
     const [active, setActive] = useState(1);
