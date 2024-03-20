@@ -20,7 +20,7 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "ts-node": { // ts-node automated configuration using commonjs
+  "ts-node": { 
   "compilerOptions": {
     "module": "CommonJS"
   }
