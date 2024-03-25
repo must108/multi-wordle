@@ -1,13 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
 $kbcolor: #818384;
 $kbdcolor: #525455;
 $letterboard: #3A3A3C;
 
+html {
+	font-family: 'Inter', sans-serif;
+	font-weight: 400;
+}
+
 body {
 	background-color: #333;
   	color: white;
-  	font-family: 'Inter', sans-serif;
 }	
 
 .keyboard {
