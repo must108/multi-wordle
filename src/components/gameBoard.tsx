@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { WordArray } from './handleWord';
+import { WordArray, Words } from './handleWord';
 
 const NUM_GUESSES = 6;
 const NUM_BOXES = 5;
