@@ -3,6 +3,7 @@
 $kbcolor: #818384;
 $kbdcolor: #525455;
 $letterboard: #3A3A3C;
+$fadeColor: #393a3b;
 
 html {
 	font-family: 'Inter', sans-serif;
@@ -10,7 +11,7 @@ html {
 }
 
 body {
-	background-color: #333;
+	background-color: #1e1e1e;
   	color: white;
 }	
 
@@ -48,6 +49,14 @@ body {
 	.i-key {
 		padding: 0.8rem 1rem;
 	}
+
+	.letterFade {
+		opacity: 25%;
+
+		&:hover {
+			background-color: $kbcolor;
+		}
+	}
 }
 
 .game-board {
@@ -56,7 +65,7 @@ body {
 	flex-direction: column;
 
 	.letter-box {
-		border: 2px solid gray;
+		border: 2px solid #333;
 		border-radius: 3px;
 		margin: 2px;
 		font-size: 1.9rem;
@@ -77,4 +86,22 @@ body {
 	.letter-row {
 		display: flex;
 	}
+
+	.correctLetter {
+		background-color: #333;
+		color: green;
+	}
+
+	.wrongLetter {
+		background-color: #333;
+	}
+
+	.containsLetter {
+		background-color: #333;
+		color: yellow;
+	}
+}
+
+#gameMessage {
+	text-align: center;
 }

@@ -12,6 +12,17 @@ export default function Keyboard({ keys }: KeyboardProps){
     const [letters, setLetters] = useState<Key[][] | null>(null);
 
     useEffect(() => {
+
+        const handleFade = (e: CustomEvent) => {
+            const letter = e.detail.letter;
+            const ele = document.getElementById(letter.toLowerCase());
+            ele!.classList.add('letterFade');
+        };
+
+        window.addEventListener('fadeLetter', handleFade as EventListener);
+    }, []);
+
+    useEffect(() => {
         const convertKeys = keys.map(row => row.map(key => ({ key } as Key)));
         setLetters(convertKeys);
     }, [keys]);
@@ -40,18 +51,23 @@ export default function Keyboard({ keys }: KeyboardProps){
                     {letters && letters[0].map((keyObj, index) => (
                         <div key={index} 
                         className={`keyboard-button ${keyObj.key === 'i' ? 'i-key' : ''}`} 
-                        onClick={() => sendLetter(keyObj.key)}>{keyObj.key}</div>
+                        onClick={() => sendLetter(keyObj.key)}
+                        id={(keyObj.key).toLowerCase()}>{keyObj.key}</div>
                     ))}
                 </div>
                 <div className="second-row">
                     {letters && letters[1].map((keyObj, index) => (
-                            <div key={index} className="keyboard-button" onClick={() => sendLetter(keyObj.key)}>{keyObj.key}</div>
+                            <div key={index} className="keyboard-button" 
+                            onClick={() => sendLetter(keyObj.key)}
+                            id={keyObj.key}>{keyObj.key}</div>
                     ))}
                 </div>
                 <div className="third-row">
                     <div className="keyboard-button" onClick={() => enterKey()}>ENTER</div>
                     {letters && letters[2].map((keyObj, index) => (
-                        <div key={index} className="keyboard-button" onClick={() => sendLetter(keyObj.key)}>{keyObj.key}</div>
+                        <div key={index} className="keyboard-button" 
+                        onClick={() => sendLetter(keyObj.key)}
+                        id={keyObj.key}>{keyObj.key}</div>
                     ))}
                     <div className="keyboard-button" onClick={() => delLetter()}>DEL</div>
                 </div>

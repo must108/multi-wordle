@@ -1,26 +1,26 @@
 import { useState, useEffect } from 'react'
-import { getWord, getAllWords } from '../routes/getWord'
+import { getAllWords } from '../routes/getWord'
 
-let word = "";
 
-export function Words() {
-    const [retWord, setWord] = useState("");
+// function Words() {
+//     const [word, setWord] = useState("");
 
-    useEffect(() => {
-        async function fetchWord() {
-            try {
-                const res = await getWord();
-                setWord(res);
-            } catch (error) {
-                console.error('error fetching word: ', error);
-            }
-        }
-        fetchWord();
-    }, []);
+//     useEffect(() => {
+//         async function fetchWord() {
+//             try {
+//                 const res = await getWord();
+//                 setWord(res.toLowerCase());
+//             } catch (error) {
+//                 console.error('error fetching word: ', error);
+//             }
+//         }
+//             fetchWord();
+//     }, []);
 
-    word = retWord;
-    return word;
-}
+
+//     return word;
+// }
+
 
 export function WordArray() {
     const [wordArray, setWordArray] = useState<string[]>([]);

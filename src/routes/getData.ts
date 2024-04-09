@@ -40,27 +40,6 @@ async function query(text: string, params: any[]) {
 }
 
 async function fetchData(wordType: any) {
-    let num;
-
-    if(wordType === 'fourletter') {
-        num = randNum(FOURNUM);
-    } else if(wordType === 'fiveletter') {
-        num = randNum(FIVENUM);
-    } else if(wordType === 'sixletter') {
-        num = randNum(SIXNUM);
-    }
-
-    try {
-        const result = await query(
-            `select words from ${wordType} where wordid = ${num}`, []);
-        return result.rows;
-    } catch (error) {
-        console.error('error fetching data: ', error);
-        throw error;
-    }
-}
-
-async function fetchAllData(wordType: any) {
     try {
         const result = await query (
             `select words from ${wordType};`, []);
@@ -71,25 +50,11 @@ async function fetchAllData(wordType: any) {
     }
 }
 
-app.get('/api/getData', async (req, res) => {
+app.get('/api/getWords', async (req, res) => {
     const wordType = req.query.wordSize;
 
     try {
         const data = await fetchData(wordType);
-        res.header('Content-Type', 'application/json');
-        res.status(200).json(data);
-        console.log('data fetched and sent (from getData)');
-    } catch(error) {
-        console.error('error fetching data: ', error);
-        res.status(500).json({ error: 'failed to fetch data' });
-    }
-});
-
-app.get('/api/getAll', async (req, res) => {
-    const wordType = req.query.wordSize;
-
-    try {
-        const data = await fetchAllData(wordType);
         res.header('Content-Type', 'application/json');
         res.status(200).json(data);
         console.log('data fetched and sent (from getAll)');

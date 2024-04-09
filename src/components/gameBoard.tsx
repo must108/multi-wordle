@@ -1,33 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { WordArray, Words } from './handleWord';
+import React, { useState, useEffect, useRef, RefObject } from 'react';
+import { WordArray } from './handleWord';
+import { randNum } from '../routes/getWord';
 
 const NUM_GUESSES = 6;
 const NUM_BOXES = 5;
-const WORDS_LEN = 2315;
-
-function binarySearch(arr: string[], item: string, size: number) {
-    let left: number = 0;
-    let right: number = size - 1;
-    let mid: number = 0;
-
-    while(left <= right) {
-        mid = Math.floor((left + right) / 2);
-
-        if(arr[mid] === item) {
-            return mid;
-        } else if (item[0] > arr[mid][0]) {
-            left = mid + 1;
-        } else if (item[0] < arr[mid][0]) {
-            right = mid - 1;
-        }
-    }
-
-    return -1;
-}
+const WORD_SIZE = 2315;
+const WORD_LEN = 5;
+const RANDOM_NUMBER = randNum(WORD_SIZE);
 
 export default function Board() {
     const [active, setActive] = useState(1);
     const activeRef = useRef(active);
+
 
     useEffect(() => {
         activeRef.current = active;
@@ -47,16 +31,21 @@ export default function Board() {
     }, []);
 
     return (
-        <div className="game-board">
-            {[...Array(NUM_GUESSES)].map((_, i) => (
-                <Row key={i} isActive={activeRef.current === i + 1} />
-            ))}
-        </div>
+        <>
+            <div className="game-board">
+                {[...Array(NUM_GUESSES)].map((_, i) => (
+                    <Row key={i} isActive={activeRef.current === i + 1} />
+                ))}
+            </div>
+        </>
     )
 }
 
 function Row({ isActive }: any) {
     const [letters, setLetters] = useState<string[]>([]);
+    let wordArr: string[] = WordArray().map(word => word.toLowerCase());
+    let submitWord: string = "";
+    const correctWord = wordArr[RANDOM_NUMBER];
 
     useEffect(() => {
         if(isActive) {
@@ -89,15 +78,96 @@ function Row({ isActive }: any) {
 
             const sendEnter = () => {
                 if(letters.length > (NUM_BOXES - 1)) {
-                    const event = new CustomEvent('sendEnter');
-                    window.dispatchEvent(event);
+                    submitWord = letters.join('');
+                    if(wordArr.includes(submitWord)) {
+                        const event = new CustomEvent('sendEnter');
+                        window.dispatchEvent(event);
+                        if(submitWord === correctWord) {
+                            const message = 'Correct Guess'
+                            const event = new CustomEvent('wordCheck', {
+                                detail: { message }
+                            });
+                            window.dispatchEvent(event);
+                        } else {
+                            const message = 'Wrong Guess'
+                            const event = new CustomEvent('wordCheck', {
+                                detail: { message } 
+                            });
+                            window.dispatchEvent(event);
+                        }
+                    } else {
+                        const message = 'Not a word';
+                        const event = new CustomEvent('wordCheck', {
+                            detail: { message }
+                        });
+                        window.dispatchEvent(event);
+                    }
                 }
             }
 
             const sendEnterKey = (e: KeyboardEvent) => {
                 if(letters.length > (NUM_BOXES - 1)) {
                     if(e.key === 'Enter') {
-                        const event = new CustomEvent('sendEnter');
+                        e.preventDefault();
+                        submitWord = letters.join('');
+                        if(wordArr.includes(submitWord)) {
+                            const event = new CustomEvent('sendEnter');
+                            window.dispatchEvent(event);
+                            if(submitWord === correctWord) {
+                                const message = 'Correct Guess'
+                                const event = new CustomEvent('wordCheck', {
+                                    detail: { message }
+                                });
+                                window.dispatchEvent(event);
+                                for(let i = 0; i < WORD_LEN; i++) {
+                                    if(correctWord[i] === submitWord[i]) {
+                                        const elem = lettersRef.current[i];
+                                        elem!.classList.add('correctLetter');
+                                    } else if(correctWord.indexOf(submitWord[i]) === -1) {
+                                        const elem = lettersRef.current[i];
+                                        elem!.classList.add('wrongLetter');
+                                    }
+                                }
+                            } else {
+                                const message = 'Wrong Guess'
+                                const event = new CustomEvent('wordCheck', {
+                                    detail: { message } 
+                                });
+                                window.dispatchEvent(event);
+                                for(let i = 0; i < WORD_LEN; i++) {
+                                    if(correctWord[i] === submitWord[i]) {
+                                        const elem = lettersRef.current[i];
+                                        elem!.classList.add('correctLetter');
+                                    } else if(correctWord.includes(submitWord[i])) {
+                                        const elem = lettersRef.current[i];
+                                        elem!.classList.add('containsLetter');
+                                    } else if(!correctWord.includes(submitWord[i]) && 
+                                    correctWord[i] !== submitWord[i]) {
+                                        const elem = lettersRef.current[i];
+                                        const letter = elem!.textContent;
+                                        elem!.classList.add('wrongLetter');
+
+                                        const event = new CustomEvent('fadeLetter', {
+                                            detail: { letter }
+                                        });
+                                        window.dispatchEvent(event);
+                                    }
+                                }
+                            }
+                        } else {
+                            const message = 'Not a word';
+                            const event = new CustomEvent('wordCheck', {
+                                detail: { message }
+                            });
+                            window.dispatchEvent(event);
+                        }
+                    }
+                } else {
+                    if(e.key === 'Enter') {
+                        const message = 'Not enough letters'
+                        const event = new CustomEvent('wordCheck', {
+                            detail: { message } 
+                        });
                         window.dispatchEvent(event);
                     }
                 }
@@ -121,11 +191,21 @@ function Row({ isActive }: any) {
         }
     }, [letters, isActive]);
 
+    const lettersRef = useRef<(HTMLDivElement | null)[]>([]);
+
         return (
-            <div className="letter-row">
-                {[...Array(NUM_BOXES)].map((_, i) => (
-                    <div key={i} className="letter-box">{letters[i]}</div>
-                ))}
-            </div>
+            <>
+                <div className="letter-row">
+                    {[...Array(NUM_BOXES)].map((_, i) => (
+                        <div key={i} 
+                        ref={(ref) => {
+                            if(ref) {
+                                lettersRef.current[i] = ref as HTMLDivElement;
+                            }
+                        }} 
+                        className="letter-box">{letters[i]}</div>
+                    ))}
+                </div>
+            </>
         );
 }
