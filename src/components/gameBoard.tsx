@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, RefObject } from 'react';
-import { WordArray } from './handleWord';
+import { Words } from './handleWord';
 import { randNum } from '../routes/getWord';
 
 const NUM_GUESSES = 6;
@@ -43,7 +43,7 @@ export default function Board() {
 
 function Row({ isActive }: any) {
     const [letters, setLetters] = useState<string[]>([]);
-    let wordArr: string[] = WordArray().map(word => word.toLowerCase());
+    let wordArr: string[] = Words().map(word => word.toLowerCase());
     let submitWord: string = "";
     const correctWord = wordArr[RANDOM_NUMBER];
 
