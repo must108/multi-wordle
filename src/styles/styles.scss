@@ -8,12 +8,26 @@ $fadeColor: #393a3b;
 html {
 	font-family: 'Inter', sans-serif;
 	font-weight: 400;
+	overflow: hidden;
 }
 
 body {
 	background-color: #1e1e1e;
   	color: white;
 }	
+
+#titleContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 95vh;
+	font-size: 40px;
+
+	button {
+		padding: 15px 45px;
+	}
+}
 
 .keyboard {
 	margin: 1rem 0;

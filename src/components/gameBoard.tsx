@@ -3,10 +3,26 @@ import { Words } from './handleWord';
 import { randNum } from '../routes/getWord';
 
 const NUM_GUESSES = 6;
-const NUM_BOXES = 5;
-const WORD_SIZE = 2315;
-const WORD_LEN = 5;
+const [NUM_BOXES, WORD_SIZE] = setMode('five');
 const RANDOM_NUMBER = randNum(WORD_SIZE);
+
+function setMode(mode: string) {
+    let len = 0;
+    let size = 0;
+
+    if(mode === 'four') {
+        len = 4;
+        size = 3111;
+    } else if(mode === 'five') {
+        len = 5;
+        size = 2315;
+    } else if(mode === 'six') {
+        len = 6;
+        size = 2487;
+    }
+
+    return [len, size];
+}
 
 export default function Board() {
     const [active, setActive] = useState(1);
@@ -119,7 +135,7 @@ function Row({ isActive }: any) {
                                     detail: { message }
                                 });
                                 window.dispatchEvent(event);
-                                for(let i = 0; i < WORD_LEN; i++) {
+                                for(let i = 0; i < NUM_BOXES; i++) {
                                     if(correctWord[i] === submitWord[i]) {
                                         const elem = lettersRef.current[i];
                                         elem!.classList.add('correctLetter');
@@ -134,7 +150,7 @@ function Row({ isActive }: any) {
                                     detail: { message } 
                                 });
                                 window.dispatchEvent(event);
-                                for(let i = 0; i < WORD_LEN; i++) {
+                                for(let i = 0; i < NUM_BOXES; i++) {
                                     if(correctWord[i] === submitWord[i]) {
                                         const elem = lettersRef.current[i];
                                         elem!.classList.add('correctLetter');
