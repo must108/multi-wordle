@@ -32,9 +32,11 @@ export default function PlayBoard() {
 
     return (
         <>
-            <Board />
-            <Keyboard keys={keys} />
-            <p id="gameMessage">{message}</p>
+            <div id="gameContainer">
+                <Board />
+                <Keyboard keys={keys} />
+                <p id="gameMessage">{message}</p>
+            </div>
         </>
     )
 }

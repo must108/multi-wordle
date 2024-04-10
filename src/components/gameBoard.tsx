@@ -1,28 +1,11 @@
-import React, { useState, useEffect, useRef, RefObject } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Words } from './handleWord';
 import { randNum } from '../routes/getWord';
 
 const NUM_GUESSES = 6;
-const [NUM_BOXES, WORD_SIZE] = setMode('five');
-const RANDOM_NUMBER = randNum(WORD_SIZE);
-
-function setMode(mode: string) {
-    let len = 0;
-    let size = 0;
-
-    if(mode === 'four') {
-        len = 4;
-        size = 3111;
-    } else if(mode === 'five') {
-        len = 5;
-        size = 2315;
-    } else if(mode === 'six') {
-        len = 6;
-        size = 2487;
-    }
-
-    return [len, size];
-}
+let NUM_BOXES: number;
+let WORD_SIZE: number;
+let RANDOM_NUMBER: number;
 
 export default function Board() {
     const [active, setActive] = useState(1);
@@ -225,3 +208,16 @@ function Row({ isActive }: any) {
             </>
         );
 }
+
+const handleMode = (e: CustomEvent) => {
+    let len = e.detail.length;
+    let size = e.detail.size;
+
+    NUM_BOXES = len;
+    WORD_SIZE = size;
+    RANDOM_NUMBER = randNum(WORD_SIZE);
+    const event = new CustomEvent('gameToggle');
+    window.dispatchEvent(event);
+};
+
+window.addEventListener('modeSelect', handleMode as EventListener);

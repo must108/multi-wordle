@@ -42,6 +42,14 @@ body {
 	gap: 10px;
 }
 
+#gameContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 95vh;
+}
+
 .keyboard {
 	margin: 1rem 0;
 	display: flex;
@@ -131,4 +139,5 @@ body {
 
 #gameMessage {
 	text-align: center;
+	color: white;
 }
