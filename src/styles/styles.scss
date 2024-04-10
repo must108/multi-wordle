@@ -29,6 +29,19 @@ body {
 	}
 }
 
+#modeContainer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 95vh;
+	flex-direction: column;
+}
+
+#modeButtonContainer {
+	display: flex;
+	gap: 10px;
+}
+
 .keyboard {
 	margin: 1rem 0;
 	display: flex;

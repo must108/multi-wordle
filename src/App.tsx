@@ -5,9 +5,11 @@ import Title from './components/title';
 function App() {
     const [showTitle, setShowTitle] = useState(true);
     const [showMode, setShowMode] = useState(false);
+    const [showGame, setShowGame] = useState(false);
 
     const toggleTitle = () => {
         setShowMode(true);
+        setShowTitle(false);
     };
 
     const handleMode = (mode: string) => {
@@ -26,7 +28,8 @@ function App() {
         </div>
         : null}
 
-        <div id="modeContainer">
+        {showMode ? 
+            <div id="modeContainer">
             <h1>choose your gamemode:</h1>
             <div id="modeButtonContainer">
                 <button onClick={() => handleMode('four')}>four</button>
@@ -34,6 +37,9 @@ function App() {
                 <button onClick={() => handleMode('six')}>six</button>
             </div>
         </div>
+        : null}
+
+        {showGame ? <PlayBoard /> : null}
     </>
   );
 }
