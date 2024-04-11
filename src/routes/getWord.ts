@@ -1,5 +1,3 @@
-const getURL = 'http://localhost:3001/api/getWords?wordSize=fiveletter'
-
 export function randNum(max: number) {
     return Math.floor(Math.random() * max) + 1;
 }
@@ -21,7 +19,9 @@ const fetchData = async (url: any) => {
     }
 };
 
-export async function getAllWords() {
+export default async function getAllWords(wordType: string) {
+    const params = new URLSearchParams({ wordSize: wordType });
+    const getURL = "/api/getWords?" + params.toString();
 
     try {
         const res = await fetchData(getURL);

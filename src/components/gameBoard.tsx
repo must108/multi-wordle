@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Words } from './handleWord';
+import Words from './handleWord';
 import { randNum } from '../routes/getWord';
 
 const NUM_GUESSES = 6;

@@ -1,30 +1,33 @@
+let wordType: string = ""
 
-export default function ModeSelect() { 
+export function ModeSelect() { 
 
     const handleMode = (mode: string) => {
-        let length, size;
-        if(mode === 'four') {
-            length = 4;
-            size = 3111;
-            const event = new CustomEvent('modeSelect', {
-                detail: { length, size }
-            });
-            window.dispatchEvent(event);
-        } else if(mode === 'five') {
-            length = 5;
-            size = 2315;
-            const event = new CustomEvent('modeSelect', {
-                detail: { length, size }
-            });
-            window.dispatchEvent(event);
-        } else if(mode === 'six') {
-            length = 6;
-            size = 2487;
-            const event = new CustomEvent('modeSelect', {
-                detail: { length, size }
-            });
-            window.dispatchEvent(event);
+        let length, size, wordType;
+        switch(mode) {
+            case 'four':
+                length = 4;
+                size = 3111;
+                wordType = 'fourletter';
+                break;
+            case 'five':
+                length = 5;
+                size = 2315;
+                wordType = 'fiveletter';
+                break;
+            case 'six':
+                length = 6;
+                size = 2487;
+                wordType = 'sixletter';
+                break;
+            default:
+                return;
         }
+
+        const event = new CustomEvent('modeSelect', {
+            detail: { length, size, wordType }
+        });
+        window.dispatchEvent(event);
     }
 
     return (

@@ -3,15 +3,12 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
-import { randNum } from './getWord';
+import path from 'path';
 
 dotenv.config({ path: '.env' });
 
 const app = express();
-const port = process.env.SERVER_PORT || 3001;
-const FOURNUM = 3111;
-const FIVENUM = 2315;
-const SIXNUM = 2487;
+const port = process.env.SERVER_PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -50,6 +47,8 @@ async function fetchData(wordType: any) {
     }
 }
 
+app.use(express.static(path.join(__dirname, '../build')));
+
 app.get('/api/getWords', async (req, res) => {
     const wordType = req.query.wordSize;
 
@@ -63,6 +62,10 @@ app.get('/api/getWords', async (req, res) => {
         res.status(500).json({ error: 'failed to fetch data ' });
     }
 })
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
 
 app.listen(port, () => {
     console.log(`server listening at http://localhost:${port}`);

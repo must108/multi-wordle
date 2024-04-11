@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PlayBoard from './components/playBoard';
 import Title from './components/title';
-import ModeSelect from './components/modeSelect';
+import { ModeSelect } from './components/modeSelect';
 
 function App() {
     const [showTitle, setShowTitle] = useState(true);
