@@ -38,7 +38,7 @@ export default function Board() {
             </div>
         </>
     )
-}
+} // creates the "board" for typing words
 
 function Row({ isActive }: any) {
     const [letters, setLetters] = useState<string[]>([]);
@@ -170,7 +170,7 @@ function Row({ isActive }: any) {
                         window.dispatchEvent(event);
                     }
                 }
-            }
+            } // handles submission of word for input validation
     
             window.addEventListener('letterSent', handleLetter as EventListener);
             window.addEventListener('deleteLetter', delLetter as EventListener);
@@ -207,7 +207,7 @@ function Row({ isActive }: any) {
                 </div>
             </>
         );
-}
+} // handles creation of row and input validation
 
 const handleMode = (e: CustomEvent) => {
     let len = e.detail.length;

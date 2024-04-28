@@ -39,7 +39,7 @@ async function query(text: string, params: any[]) {
 async function fetchData(wordType: any) {
     try {
         const result = await query (
-            `select words from ${wordType};`, []);
+            `select words from fiveletter;`, []);
         return result.rows;
     } catch (error) {
         console.error('error fetching data: ', error);
@@ -56,7 +56,7 @@ app.get('/api/getWords', async (req, res) => {
         const data = await fetchData(wordType);
         res.header('Content-Type', 'application/json');
         res.status(200).json(data);
-        console.log('data fetched and sent (from getAll)');
+        console.log('data fetched and sent');
     } catch (error) {
         console.error('error fetching data: ', error);
         res.status(500).json({ error: 'failed to fetch data ' });
