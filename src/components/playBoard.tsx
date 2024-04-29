@@ -17,6 +17,9 @@ export default function PlayBoard() {
                 setMessage('Not a valid word!');
             } else if(check === 'Not enough letters') {
                 setMessage('Not enough letters!')
+            } else if(check === 'Wrong Answer') {
+                const word = e.detail.word
+                setMessage("You didn't get it! The word is " + word + "!");
             }
             setTimeout(() => {
                 setMessage("");

@@ -6,6 +6,7 @@ const NUM_GUESSES = 6;
 let NUM_BOXES: number;
 let WORD_SIZE: number;
 let RANDOM_NUMBER: number;
+let currRow: number = 0;
 
 export default function Board() {
     const [active, setActive] = useState(1);
@@ -88,12 +89,23 @@ function Row({ isActive }: any) {
                             });
                             window.dispatchEvent(event);
                         } else {
-                            const message = 'Wrong Guess'
-                            const event = new CustomEvent('wordCheck', {
-                                detail: { message } 
-                            });
-                            window.dispatchEvent(event);
+                            if(currRow === NUM_GUESSES - 1) {
+                                const message = 'Wrong Answer';
+                                const word = correctWord;
+
+                                const event = new CustomEvent('wrongAnswer', {
+                                    detail: { message, word }
+                                })
+                                window.dispatchEvent(event);
+                            } else {
+                                const message = 'Wrong Guess'
+                                const event = new CustomEvent('wordCheck', {
+                                    detail: { message } 
+                                });
+                                window.dispatchEvent(event);
+                            }
                         }
+                        currRow += 1;
                     } else {
                         const message = 'Not a word';
                         const event = new CustomEvent('wordCheck', {
