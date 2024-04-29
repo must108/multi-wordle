@@ -78,6 +78,7 @@ function Row({ isActive }: any) {
 
             const sendEnter = () => {
                 if(letters.length > (NUM_BOXES - 1)) {
+                    // eslint-disable-next-line react-hooks/exhaustive-deps
                     submitWord = letters.join('');
                     if(wordArr.includes(submitWord)) {
                         const event = new CustomEvent('sendEnter');
@@ -88,22 +89,14 @@ function Row({ isActive }: any) {
                                 detail: { message }
                             });
                             window.dispatchEvent(event);
+                            colorLetters(correctWord, submitWord, lettersRef);
                         } else {
-                            if(currRow === NUM_GUESSES - 1) {
-                                const message = 'Wrong Answer';
-                                const word = correctWord;
-
-                                const event = new CustomEvent('wrongAnswer', {
-                                    detail: { message, word }
-                                })
-                                window.dispatchEvent(event);
-                            } else {
                                 const message = 'Wrong Guess'
                                 const event = new CustomEvent('wordCheck', {
                                     detail: { message } 
                                 });
                                 window.dispatchEvent(event);
-                            }
+                                colorLettersWrong(correctWord, submitWord, lettersRef);
                         }
                         currRow += 1;
                     } else {
@@ -130,41 +123,16 @@ function Row({ isActive }: any) {
                                     detail: { message }
                                 });
                                 window.dispatchEvent(event);
-                                for(let i = 0; i < NUM_BOXES; i++) {
-                                    if(correctWord[i] === submitWord[i]) {
-                                        const elem = lettersRef.current[i];
-                                        elem!.classList.add('correctLetter');
-                                    } else if(correctWord.indexOf(submitWord[i]) === -1) {
-                                        const elem = lettersRef.current[i];
-                                        elem!.classList.add('wrongLetter');
-                                    }
-                                }
+                                colorLetters(correctWord, submitWord, lettersRef);
                             } else {
                                 const message = 'Wrong Guess'
                                 const event = new CustomEvent('wordCheck', {
                                     detail: { message } 
                                 });
                                 window.dispatchEvent(event);
-                                for(let i = 0; i < NUM_BOXES; i++) {
-                                    if(correctWord[i] === submitWord[i]) {
-                                        const elem = lettersRef.current[i];
-                                        elem!.classList.add('correctLetter');
-                                    } else if(correctWord.includes(submitWord[i])) {
-                                        const elem = lettersRef.current[i];
-                                        elem!.classList.add('containsLetter');
-                                    } else if(!correctWord.includes(submitWord[i]) && 
-                                    correctWord[i] !== submitWord[i]) {
-                                        const elem = lettersRef.current[i];
-                                        const letter = elem!.textContent;
-                                        elem!.classList.add('wrongLetter');
-
-                                        const event = new CustomEvent('fadeLetter', {
-                                            detail: { letter }
-                                        });
-                                        window.dispatchEvent(event);
-                                    }
-                                }
+                                colorLettersWrong(correctWord, submitWord, lettersRef);
                             }
+                            currRow += 1;
                         } else {
                             const message = 'Not a word';
                             const event = new CustomEvent('wordCheck', {
@@ -233,3 +201,37 @@ const handleMode = (e: CustomEvent) => {
 };
 
 window.addEventListener('modeSelect', handleMode as EventListener);
+
+function colorLetters(correctWord: string, submitWord: string, lettersRef: React.MutableRefObject<(HTMLDivElement | null)[]>) {
+    for(let i = 0; i < NUM_BOXES; i++) {
+        if(correctWord[i] === submitWord[i]) {
+            const elem = lettersRef.current[i];
+            elem!.classList.add('correctLetter');
+        } else if(correctWord.indexOf(submitWord[i]) === -1) {
+            const elem = lettersRef.current[i];
+            elem!.classList.add('wrongLetter');
+        }
+    }
+}
+
+function colorLettersWrong(correctWord: string, submitWord: string, lettersRef: React.MutableRefObject<(HTMLDivElement | null)[]>) {
+    for(let i = 0; i < NUM_BOXES; i++) {
+        if(correctWord[i] === submitWord[i]) {
+            const elem = lettersRef.current[i];
+            elem!.classList.add('correctLetter');
+        } else if(correctWord.includes(submitWord[i])) {
+            const elem = lettersRef.current[i];
+            elem!.classList.add('containsLetter');
+        } else if(!correctWord.includes(submitWord[i]) && 
+        correctWord[i] !== submitWord[i]) {
+            const elem = lettersRef.current[i];
+            const letter = elem!.textContent;
+            elem!.classList.add('wrongLetter');
+
+            const event = new CustomEvent('fadeLetter', {
+                detail: { letter }
+            });
+            window.dispatchEvent(event);
+        }
+    }
+}
