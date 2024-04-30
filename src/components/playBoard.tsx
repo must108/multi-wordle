@@ -11,13 +11,13 @@ export default function PlayBoard() {
             const check = e.detail.message;
             if(check === 'Correct Guess') {
                 setMessage('You made the correct guess!');
-            } else if(check === 'Wrong Guess') {
+            } else if(check === 'Wrong Guess') { // typically only changes UI, might add some event later
                 // placeholder in-case
-            } else if(check === 'Not a word') {
+            } else if(check === 'Not a word') { 
                 setMessage('Not a valid word!');
             } else if(check === 'Not enough letters') {
                 setMessage('Not enough letters!')
-            } else if(check === 'Wrong Answer') {
+            } else if(check === 'Wrong Answer') { // if the wrong word is given on 6th att
                 const word = e.detail.word
                 setMessage("You didn't get it! The word is " + word + "!");
             }
@@ -26,7 +26,7 @@ export default function PlayBoard() {
             }, 2000);
         };
 
-        window.addEventListener('wordCheck', handleNotWord as EventListener);
+        window.addEventListener('wordCheck', handleNotWord as EventListener); // event that handles input valiation
 
         return () => {
             window.removeEventListener('wordCheck', handleNotWord as EventListener);

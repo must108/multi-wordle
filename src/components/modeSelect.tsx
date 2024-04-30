@@ -1,5 +1,3 @@
-let wordType: string = ""
-
 export function ModeSelect() { 
 
     const handleMode = (mode: string) => {

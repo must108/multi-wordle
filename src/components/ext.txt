@@ -1,9 +1,0 @@
-if(currRow === NUM_GUESSES - 1) {
-                                const message = 'Wrong Answer';
-                                const word = correctWord;
-
-                                const event = new CustomEvent('wrongAnswer', {
-                                    detail: { message, word }
-                                })
-                                window.dispatchEvent(event);
-                            } 
