@@ -1,6 +1,6 @@
 import Board from "./gameBoard";
 import Keyboard from "./keyBoard";
-import keys from "../data/keys";
+import keys from "../keys";
 import React, { useState, useEffect } from 'react';
 
 export default function PlayBoard() {
