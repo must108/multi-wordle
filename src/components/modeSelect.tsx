@@ -1,5 +1,3 @@
-let wordType: string = ""
-
 export function ModeSelect() { 
 
     const handleMode = (mode: string) => {
@@ -12,7 +10,7 @@ export function ModeSelect() {
                 break;
             case 'five':
                 length = 5;
-                size = 2315;
+                size = 5782;
                 wordType = 'fiveletter';
                 break;
             case 'six':

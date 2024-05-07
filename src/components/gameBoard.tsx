@@ -6,6 +6,7 @@ const NUM_GUESSES = 6;
 let NUM_BOXES: number;
 let WORD_SIZE: number;
 let RANDOM_NUMBER: number;
+let currRow: number = 0;
 
 export default function Board() {
     const [active, setActive] = useState(1);
@@ -38,7 +39,7 @@ export default function Board() {
             </div>
         </>
     )
-}
+} // creates the "board" for typing words
 
 function Row({ isActive }: any) {
     const [letters, setLetters] = useState<string[]>([]);
@@ -75,102 +76,34 @@ function Row({ isActive }: any) {
                 }
             }
 
-            const sendEnter = () => {
+            const sendEnter = (e: CustomEvent) => {
                 if(letters.length > (NUM_BOXES - 1)) {
-                    submitWord = letters.join('');
-                    if(wordArr.includes(submitWord)) {
-                        const event = new CustomEvent('sendEnter');
-                        window.dispatchEvent(event);
-                        if(submitWord === correctWord) {
-                            const message = 'Correct Guess'
-                            const event = new CustomEvent('wordCheck', {
-                                detail: { message }
-                            });
-                            window.dispatchEvent(event);
-                        } else {
-                            const message = 'Wrong Guess'
-                            const event = new CustomEvent('wordCheck', {
-                                detail: { message } 
-                            });
-                            window.dispatchEvent(event);
-                        }
-                    } else {
-                        const message = 'Not a word';
-                        const event = new CustomEvent('wordCheck', {
-                            detail: { message }
-                        });
-                        window.dispatchEvent(event);
-                    }
+                    inputValid(submitWord, letters, wordArr, correctWord, lettersRef);
+                } else {
+                    const message = 'Not enough letters'
+                    const event = new CustomEvent('wordCheck', {
+                        detail: { message } 
+                    });
+                    
+                    window.dispatchEvent(event);
                 }
             }
 
             const sendEnterKey = (e: KeyboardEvent) => {
-                if(letters.length > (NUM_BOXES - 1)) {
-                    if(e.key === 'Enter') {
-                        e.preventDefault();
-                        submitWord = letters.join('');
-                        if(wordArr.includes(submitWord)) {
-                            const event = new CustomEvent('sendEnter');
-                            window.dispatchEvent(event);
-                            if(submitWord === correctWord) {
-                                const message = 'Correct Guess'
-                                const event = new CustomEvent('wordCheck', {
-                                    detail: { message }
-                                });
-                                window.dispatchEvent(event);
-                                for(let i = 0; i < NUM_BOXES; i++) {
-                                    if(correctWord[i] === submitWord[i]) {
-                                        const elem = lettersRef.current[i];
-                                        elem!.classList.add('correctLetter');
-                                    } else if(correctWord.indexOf(submitWord[i]) === -1) {
-                                        const elem = lettersRef.current[i];
-                                        elem!.classList.add('wrongLetter');
-                                    }
-                                }
-                            } else {
-                                const message = 'Wrong Guess'
-                                const event = new CustomEvent('wordCheck', {
-                                    detail: { message } 
-                                });
-                                window.dispatchEvent(event);
-                                for(let i = 0; i < NUM_BOXES; i++) {
-                                    if(correctWord[i] === submitWord[i]) {
-                                        const elem = lettersRef.current[i];
-                                        elem!.classList.add('correctLetter');
-                                    } else if(correctWord.includes(submitWord[i])) {
-                                        const elem = lettersRef.current[i];
-                                        elem!.classList.add('containsLetter');
-                                    } else if(!correctWord.includes(submitWord[i]) && 
-                                    correctWord[i] !== submitWord[i]) {
-                                        const elem = lettersRef.current[i];
-                                        const letter = elem!.textContent;
-                                        elem!.classList.add('wrongLetter');
-
-                                        const event = new CustomEvent('fadeLetter', {
-                                            detail: { letter }
-                                        });
-                                        window.dispatchEvent(event);
-                                    }
-                                }
-                            }
-                        } else {
-                            const message = 'Not a word';
-                            const event = new CustomEvent('wordCheck', {
-                                detail: { message }
-                            });
-                            window.dispatchEvent(event);
-                        }
-                    }
-                } else {
-                    if(e.key === 'Enter') {
+                if(e.key === 'Enter') {
+                    e.preventDefault();
+                    if(letters.length > (NUM_BOXES - 1)) {
+                        inputValid(submitWord, letters, wordArr, correctWord, lettersRef);
+                    } else {
                         const message = 'Not enough letters'
                         const event = new CustomEvent('wordCheck', {
                             detail: { message } 
                         });
+                            
                         window.dispatchEvent(event);
                     }
                 }
-            }
+            } // handles submission of word for input validation
     
             window.addEventListener('letterSent', handleLetter as EventListener);
             window.addEventListener('deleteLetter', delLetter as EventListener);
@@ -207,7 +140,76 @@ function Row({ isActive }: any) {
                 </div>
             </>
         );
-}
+} // handles creation of row and input validation
+
+function inputValid(submitWord: string, letters: string[], wordArr: string[], correctWord: string, 
+    lettersRef: React.MutableRefObject<(HTMLDivElement | null)[]>) {
+
+    submitWord = letters.join('');
+    if(wordArr.includes(submitWord)) {
+        const event = new CustomEvent('sendEnter');
+
+        window.dispatchEvent(event);
+        if(submitWord === correctWord) {
+            const message = 'Correct Guess'
+            const event = new CustomEvent('wordCheck', {
+                detail: { message }
+            });
+
+            window.dispatchEvent(event);
+            colorLetters(correctWord, submitWord, lettersRef);
+        } else {
+            if (currRow === NUM_BOXES - 1) {
+                const message = 'Wrong Answer'
+                const word = correctWord
+                const event = new CustomEvent('wordCheck', {
+                    detail: { message, word }
+                });
+
+                window.dispatchEvent(event);
+                colorLetters(correctWord, submitWord, lettersRef);
+            } else {
+                const message = 'Wrong Guess'
+                const event = new CustomEvent('wordCheck', {
+                    detail: { message } 
+                });
+
+                window.dispatchEvent(event);
+                colorLetters(correctWord, submitWord, lettersRef);
+            }
+        }
+        currRow += 1;
+    } else {
+        const message = 'Not a word';
+        const event = new CustomEvent('wordCheck', {
+            detail: { message }
+        });
+
+        window.dispatchEvent(event);
+    }
+} // main function for input validation of words.
+
+function colorLetters(correctWord: string, submitWord: string, 
+    lettersRef: React.MutableRefObject<(HTMLDivElement | null)[]>) {
+
+    for(let i = 0; i < NUM_BOXES; i++) {
+        const elem = lettersRef.current[i];
+        if(correctWord[i] === submitWord[i]) {
+            elem!.classList.add('correctLetter');
+        } else if(correctWord.includes(submitWord[i])) {
+            elem!.classList.add('containsLetter');
+        } else if(!correctWord.includes(submitWord[i]) && 
+        correctWord[i] !== submitWord[i]) {
+            const letter = elem!.textContent;
+            elem!.classList.add('wrongLetter');
+
+            const event = new CustomEvent('fadeLetter', {
+                detail: { letter }
+            });
+            window.dispatchEvent(event);
+        }
+    }
+} // to color letters as right
 
 const handleMode = (e: CustomEvent) => {
     let len = e.detail.length;
