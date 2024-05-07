@@ -18,14 +18,16 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "preserve"
   },
-  "ts-node": { 
-  "compilerOptions": {
-    "module": "CommonJS"
-  }
-},
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  },
   "include": [
-    "src"
-, "backend/server.ts", "backend/data"  ]
+    "src",
+    "backend/server.ts",
+    "backend/data"
+  ]
 }
