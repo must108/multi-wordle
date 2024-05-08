@@ -1,3 +1,3 @@
 # Multi-Wordle
 
-coming soon
+coming soon. written with next, tailwind, typescript

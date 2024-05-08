@@ -1,3 +1,5 @@
+"use client";
+
 import Board from "./gameBoard";
 import Keyboard from "./keyBoard";
 import keys from "../keys";
@@ -35,10 +37,10 @@ export default function PlayBoard() {
 
     return (
         <>
-            <div id="gameContainer">
+            <div id="gameContainer" className="flex flex-col items-center justify-center h-[95vh]">
                 <Board />
                 <Keyboard keys={keys} />
-                <p id="gameMessage">{message}</p>
+                <p className="text-center text-white">{message}</p>
             </div>
         </>
     )

@@ -1,6 +1,7 @@
+"use client";
+
 import React, { useState, useEffect, useRef } from 'react';
-import Words from './handleWord';
-import { randNum } from '../routes/getWord';
+import { Words } from './handleWord';
 
 const NUM_GUESSES = 6;
 let NUM_BOXES: number;
@@ -32,7 +33,7 @@ export default function Board() {
 
     return (
         <>
-            <div className="game-board">
+            <div className="game-board flex flex-col items-center">
                 {[...Array(NUM_GUESSES)].map((_, i) => (
                     <Row key={i} isActive={activeRef.current === i + 1} />
                 ))}
@@ -43,7 +44,7 @@ export default function Board() {
 
 function Row({ isActive }: any) {
     const [letters, setLetters] = useState<string[]>([]);
-    let wordArr: string[] = Words().map(word => word.toLowerCase());
+    let wordArr: string[] = Words()!.map(word => word.toLowerCase());
     let submitWord: string = "";
     const correctWord = wordArr[RANDOM_NUMBER];
 
@@ -127,7 +128,7 @@ function Row({ isActive }: any) {
 
         return (
             <>
-                <div className="letter-row">
+                <div className="letter-row flex">
                     {[...Array(NUM_BOXES)].map((_, i) => (
                         <div key={i} 
                         ref={(ref) => {
@@ -135,7 +136,7 @@ function Row({ isActive }: any) {
                                 lettersRef.current[i] = ref as HTMLDivElement;
                             }
                         }} 
-                        className="letter-box">{letters[i]}</div>
+                        className="letter-box flex uppercase items-center justify-center select-none h-[3.5rem] w-[3.5rem] font-bold text-[1.9rem] m-[2px] rounded-[3px] border-2 border-solid border-[#333333]">{letters[i]}</div>
                     ))}
                 </div>
             </>
@@ -195,13 +196,13 @@ function colorLetters(correctWord: string, submitWord: string,
     for(let i = 0; i < NUM_BOXES; i++) {
         const elem = lettersRef.current[i];
         if(correctWord[i] === submitWord[i]) {
-            elem!.classList.add('correctLetter');
+            elem!.classList.add('correctLetter', 'bg-[#333333]', 'text-green-700');
         } else if(correctWord.includes(submitWord[i])) {
-            elem!.classList.add('containsLetter');
+            elem!.classList.add('containsLetter', 'bg-[#333333]', 'text-yellow-300');
         } else if(!correctWord.includes(submitWord[i]) && 
         correctWord[i] !== submitWord[i]) {
             const letter = elem!.textContent;
-            elem!.classList.add('wrongLetter');
+            elem!.classList.add('wrongLetter', 'bg-[#333333]');
 
             const event = new CustomEvent('fadeLetter', {
                 detail: { letter }
@@ -222,4 +223,11 @@ const handleMode = (e: CustomEvent) => {
     window.dispatchEvent(event);
 };
 
-window.addEventListener('modeSelect', handleMode as EventListener);
+function randNum(max: number) {
+    return Math.floor(Math.random() * max) + 1;
+}
+
+
+if (typeof window !== 'undefined') {
+    window.addEventListener('modeSelect', handleMode as EventListener);
+}
