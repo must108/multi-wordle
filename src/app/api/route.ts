@@ -22,9 +22,11 @@ export async function getWord(word: string) {
     return data.map(item => item.words).filter(word => word !== null) as string[];
 }
 
-export async function GET({ word }: { word: string }) {
+export const GET = async(req: any) => {
+    const url = new URL(req.url);
+    const param = new URLSearchParams(url.searchParams);
     try {
-        const words = await getWord(word);
+        const words = await getWord(param.get('word')!);
         return NextResponse.json(words, { status: 200 });
     } catch (error) {
         console.error('error fetching data: ', error);

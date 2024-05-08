@@ -7,6 +7,7 @@ const NUM_GUESSES = 6;
 let NUM_BOXES: number;
 let WORD_SIZE: number;
 let RANDOM_NUMBER: number;
+let GAME_TYPE: string;
 let currRow: number = 0;
 
 export default function Board() {
@@ -44,7 +45,18 @@ export default function Board() {
 
 function Row({ isActive }: any) {
     const [letters, setLetters] = useState<string[]>([]);
-    let wordArr: string[] = Words()!.map(word => word.toLowerCase());
+    let [fourArr, fiveArr, sixArr] = Words();
+    let wordArr: string[];
+
+    if(GAME_TYPE === 'fourletter') {
+        wordArr = fourArr!.map(word => word.toLowerCase());
+    } else if(GAME_TYPE === 'fiveletter') {
+        wordArr = fiveArr!.map(word => word.toLowerCase());
+    } else if(GAME_TYPE === 'sixletter') {
+        wordArr = sixArr!.map(word => word.toLowerCase());
+    } else {
+        wordArr = fiveArr!.map(word => word.toLowerCase());
+    }
     let submitWord: string = "";
     const correctWord = wordArr[RANDOM_NUMBER];
 
@@ -160,7 +172,7 @@ function inputValid(submitWord: string, letters: string[], wordArr: string[], co
             window.dispatchEvent(event);
             colorLetters(correctWord, submitWord, lettersRef);
         } else {
-            if (currRow === NUM_BOXES - 1) {
+            if (currRow === NUM_GUESSES - 1) {
                 const message = 'Wrong Answer'
                 const word = correctWord
                 const event = new CustomEvent('wordCheck', {
@@ -215,10 +227,12 @@ function colorLetters(correctWord: string, submitWord: string,
 const handleMode = (e: CustomEvent) => {
     let len = e.detail.length;
     let size = e.detail.size;
+    let mode = e.detail.wordType;
 
     NUM_BOXES = len;
     WORD_SIZE = size;
     RANDOM_NUMBER = randNum(WORD_SIZE);
+    GAME_TYPE = mode;
     const event = new CustomEvent('gameToggle');
     window.dispatchEvent(event);
 };

@@ -3,36 +3,44 @@
 import { useState, useEffect } from 'react'
 
 export function Words() {
-    const [wordArray, setWordArray] = useState<string[] | null>([]);
-    const word = useWord();
+    const [fourLetterArray, setFourLetterArray] = useState<string[] | null>([]);
+    const [fiveLetterArray, setFiveLetterArray] = useState<string[] | null>([]);
+    const [sixLetterArray, setSixLetterArray] = useState<string[] | null>([]);
 
     useEffect(() => {
+
         async function fetchWords() {
             try {
-                const res = await fetch(`/api?word=${word}`);
-                if(!res.ok) {
+                const resFour = await fetch(`/api?word=fourletter`);
+                const resFive = await fetch(`/api?word=fiveletter`);
+                const resSix = await fetch(`/api?word=sixletter`);
+                if(!resFour.ok || !resFive.ok || !resSix.ok) {
                     throw new Error('failed to fetch data');
                 }
-                const data = await res.json();
-                setWordArray(data);
+                const fourData = await resFour.json();
+                const fiveData = await resFive.json();
+                const sixData = await resSix.json();
+                setFourLetterArray(fourData);
+                setFiveLetterArray(fiveData);
+                setSixLetterArray(sixData);
             } catch (error) {
                 console.error('error fetching words: ', error);
             }
         }
+
         fetchWords();
     }, []);
 
-    return wordArray;
+    return [fourLetterArray, fiveLetterArray, sixLetterArray];
 }
 
-export function useWord() {
+function useWord() {
     const [word, setWord] = useState("");
 
     useEffect(() => {
-        console.log('hello');
         const handleWordType = (e: CustomEvent) => {
             console.log('event heard');
-            const wordType: string = e.detail.wordType;
+            const wordType = e.detail.wordType;
             setWord(wordType);
         }
 

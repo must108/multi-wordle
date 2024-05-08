@@ -20,18 +20,23 @@ export default function PlayBoard() {
             } else if(check === 'Not enough letters') {
                 setMessage('Not enough letters!')
             } else if(check === 'Wrong Answer') { // if the wrong word is given on 6th att
-                const word = e.detail.word
+                const word = e.detail.word.toUpperCase();
                 setMessage("You didn't get it! The word is " + word + "!");
             }
-            setTimeout(() => {
+            clearTimeout(timeoutId);
+
+            timeoutId = setTimeout(() => {
                 setMessage("");
-            }, 2000);
+            }, 3000);
         };
+
+        let timeoutId: NodeJS.Timeout;
 
         window.addEventListener('wordCheck', handleNotWord as EventListener); // event that handles input valiation
 
         return () => {
             window.removeEventListener('wordCheck', handleNotWord as EventListener);
+            clearTimeout(timeoutId);
         };
     }, []);
 
