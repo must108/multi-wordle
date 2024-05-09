@@ -13,13 +13,15 @@ export default function PlayBoard() {
             const check = e.detail.message;
             if(check === 'Correct Guess') {
                 setMessage('You made the correct guess!');
-            } else if(check === 'Wrong Guess') { // typically only changes UI, might add some event later
+            } else if(check === 'Wrong Guess') { 
+                // typically only changes UI, might add some event later
                 // placeholder in-case
             } else if(check === 'Not a word') { 
                 setMessage('Not a valid word!');
             } else if(check === 'Not enough letters') {
                 setMessage('Not enough letters!')
-            } else if(check === 'Wrong Answer') { // if the wrong word is given on 6th att
+            } else if(check === 'Wrong Answer') { 
+                // if the wrong word is given on 6th att
                 const word = e.detail.word.toUpperCase();
                 setMessage("You didn't get it! The word is " + word + "!");
             }
@@ -32,17 +34,21 @@ export default function PlayBoard() {
 
         let timeoutId: NodeJS.Timeout;
 
-        window.addEventListener('wordCheck', handleNotWord as EventListener); // event that handles input valiation
+        window.addEventListener('wordCheck', 
+            handleNotWord as EventListener); 
+            // event that handles input valiation
 
         return () => {
-            window.removeEventListener('wordCheck', handleNotWord as EventListener);
+            window.removeEventListener('wordCheck', 
+                handleNotWord as EventListener);
             clearTimeout(timeoutId);
         };
     }, []);
 
     return (
         <>
-            <div id="gameContainer" className="flex flex-col items-center justify-center h-[95vh]">
+            <div id="gameContainer" className="
+                flex flex-col items-center justify-center h-[95vh]">
                 <Board />
                 <Keyboard keys={keys} />
                 <p className="text-center text-white">{message}</p>

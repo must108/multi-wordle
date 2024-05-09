@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react'
 
 export function Words() {
-    const [fourLetterArray, setFourLetterArray] = useState<string[] | null>([]);
-    const [fiveLetterArray, setFiveLetterArray] = useState<string[] | null>([]);
+    const [fourLetterArray, setFourLetterArray] = 
+        useState<string[] | null>([]);
+    const [fiveLetterArray, setFiveLetterArray] = 
+        useState<string[] | null>([]);
     const [sixLetterArray, setSixLetterArray] = useState<string[] | null>([]);
 
     useEffect(() => {
@@ -44,10 +46,12 @@ function useWord() {
             setWord(wordType);
         }
 
-        window.addEventListener('modeSelect', handleWordType as EventListener);
+        window.addEventListener('modeSelect', 
+        handleWordType as EventListener);
 
         return () => {
-            window.removeEventListener('modeSelect', handleWordType as EventListener);
+            window.removeEventListener('modeSelect', 
+            handleWordType as EventListener);
         }
     }, []);
 

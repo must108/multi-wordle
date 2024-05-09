@@ -25,10 +25,12 @@ export default function Board() {
             activeRef.current = activeRef.current + 1;
         };
 
-        window.addEventListener('sendEnter', handleEnter as EventListener);
+        window.addEventListener('sendEnter', 
+            handleEnter as EventListener);
 
         return () => {
-            window.removeEventListener('sendEnter', handleEnter as EventListener);
+            window.removeEventListener('sendEnter', 
+                handleEnter as EventListener);
         }
     }, []);
 
@@ -71,7 +73,8 @@ function Row({ isActive }: any) {
     
             const handleKeyboardLetter = (event: KeyboardEvent) => {
                 const newLetter = event.key;
-                if(newLetter.length === 1 && newLetter.match(/[a-z]/gi) && letters.length <= (NUM_BOXES - 1)) {
+                if(newLetter.length === 1 && newLetter.match(/[a-z]/gi) && 
+                    letters.length <= (NUM_BOXES - 1)) {
                     setLetters(prevLetters => [...prevLetters, newLetter]);
                 }
             };
@@ -91,7 +94,8 @@ function Row({ isActive }: any) {
 
             const sendEnter = (e: CustomEvent) => {
                 if(letters.length > (NUM_BOXES - 1)) {
-                    inputValid(submitWord, letters, wordArr, correctWord, lettersRef);
+                    inputValid(submitWord, letters, wordArr, 
+                        correctWord, lettersRef);
                 } else {
                     const message = 'Not enough letters'
                     const event = new CustomEvent('wordCheck', {
@@ -106,7 +110,8 @@ function Row({ isActive }: any) {
                 if(e.key === 'Enter') {
                     e.preventDefault();
                     if(letters.length > (NUM_BOXES - 1)) {
-                        inputValid(submitWord, letters, wordArr, correctWord, lettersRef);
+                        inputValid(submitWord, letters, wordArr, 
+                            correctWord, lettersRef);
                     } else {
                         const message = 'Not enough letters'
                         const event = new CustomEvent('wordCheck', {
@@ -118,20 +123,27 @@ function Row({ isActive }: any) {
                 }
             } // handles submission of word for input validation
     
-            window.addEventListener('letterSent', handleLetter as EventListener);
-            window.addEventListener('deleteLetter', delLetter as EventListener);
+            window.addEventListener('letterSent', 
+                handleLetter as EventListener);
+            window.addEventListener('deleteLetter', 
+                delLetter as EventListener);
             window.addEventListener('keydown', handleKeyboardLetter);
             window.addEventListener('keydown', backSpace);
-            window.addEventListener('enterPressed', sendEnter as EventListener);
+            window.addEventListener('enterPressed', 
+                sendEnter as EventListener);
             window.addEventListener('keyup', sendEnterKey as EventListener);
     
             return () => {
-                window.removeEventListener('letterSent', handleLetter as EventListener);
-                window.removeEventListener('deleteLetter', delLetter as EventListener);
+                window.removeEventListener('letterSent', 
+                    handleLetter as EventListener);
+                window.removeEventListener('deleteLetter', 
+                    delLetter as EventListener);
                 window.removeEventListener('keydown', handleKeyboardLetter);
                 window.removeEventListener('keydown', backSpace);
-                window.removeEventListener('enterPressed', sendEnter as EventListener);
-                window.removeEventListener('keyup', sendEnterKey as EventListener);
+                window.removeEventListener('enterPressed', 
+                    sendEnter as EventListener);
+                window.removeEventListener('keyup', 
+                    sendEnterKey as EventListener);
             };
         }
     }, [letters, isActive]);
@@ -148,14 +160,22 @@ function Row({ isActive }: any) {
                                 lettersRef.current[i] = ref as HTMLDivElement;
                             }
                         }} 
-                        className="letter-box flex uppercase items-center justify-center select-none h-[3.5rem] w-[3.5rem] font-bold text-[1.9rem] m-[2px] rounded-[3px] border-2 border-solid border-[#333333]">{letters[i]}</div>
+                        className="
+                        letter-box flex uppercase items-center 
+                        justify-center select-none h-[3.5rem] w-[3.5rem] 
+                        font-bold text-[1.9rem] m-[2px] rounded-[3px] 
+                        border-2 border-solid 
+                        border-[#333333]">
+                        {letters[i]}
+                        </div>
                     ))}
                 </div>
             </>
         );
 } // handles creation of row and input validation
 
-function inputValid(submitWord: string, letters: string[], wordArr: string[], correctWord: string, 
+function inputValid(submitWord: string, letters: string[], 
+    wordArr: string[], correctWord: string, 
     lettersRef: React.MutableRefObject<(HTMLDivElement | null)[]>) {
 
     submitWord = letters.join('');
@@ -208,11 +228,13 @@ function colorLetters(correctWord: string, submitWord: string,
     for(let i = 0; i < NUM_BOXES; i++) {
         const elem = lettersRef.current[i];
         if(correctWord[i] === submitWord[i]) {
-            elem!.classList.add('correctLetter', 'bg-[#333333]', 'text-green-700');
+            elem!.classList.add('correctLetter', 'bg-[#333333]', 
+                'text-green-700');
         } else if(correctWord.includes(submitWord[i])) {
-            elem!.classList.add('containsLetter', 'bg-[#333333]', 'text-yellow-300');
+            elem!.classList.add('containsLetter', 'bg-[#333333]', 
+                'text-yellow-300');
         } else if(!correctWord.includes(submitWord[i]) && 
-        correctWord[i] !== submitWord[i]) {
+            correctWord[i] !== submitWord[i]) {
             const letter = elem!.textContent;
             elem!.classList.add('wrongLetter', 'bg-[#333333]');
 

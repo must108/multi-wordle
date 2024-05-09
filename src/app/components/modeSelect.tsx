@@ -34,9 +34,15 @@ export function ModeSelect() {
         <div className="flex flex-col items-center justify-center h-[95vh]">
             <h1 className="font-bold text-5xl py-5">choose your gamemode:</h1>
             <div className="flex gap-[10px]">
-                <button className="rounded py-1 px-2 bg-gray-500 hover:bg-gray-400" onClick={() => handleMode('four')}>four</button>
-                <button className="rounded py-1 px-2 bg-gray-500 hover:bg-gray-400" onClick={() => handleMode('five')}>five</button>
-                <button className="rounded py-1 px-2 bg-gray-500 hover:bg-gray-400" onClick={() => handleMode('six')}>six</button>
+                <button className="rounded py-1 px-2 
+                    bg-gray-500 hover:bg-gray-400" 
+                    onClick={() => handleMode('four')}>four</button>
+                <button className="rounded py-1 px-2 bg-gray-500 
+                    hover:bg-gray-400" 
+                    onClick={() => handleMode('five')}>five</button>
+                <button className="rounded py-1 px-2 
+                    bg-gray-500 hover:bg-gray-400" 
+                    onClick={() => handleMode('six')}>six</button>
             </div>
         </div>
     );

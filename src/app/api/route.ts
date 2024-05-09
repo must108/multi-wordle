@@ -19,7 +19,8 @@ export async function getWord(word: string) {
             break;
     }
 
-    return data.map(item => item.words).filter(word => word !== null) as string[];
+    return data.map(item => item.words).filter(
+        word => word !== null) as string[];
 }
 
 export const GET = async(req: any) => {
