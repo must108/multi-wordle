@@ -24,10 +24,9 @@ export function ModeSelect() {
                 return;
         }
 
-        const event = new CustomEvent('modeSelect', {
+        window.dispatchEvent(new CustomEvent('modeSelect', {
             detail: { length, size, wordType }
-        });
-        window.dispatchEvent(event);
+        }));
     }
 
     return (

@@ -42,24 +42,21 @@ export default function Keyboard({ keys }: KeyboardProps){
 
     const sendLetter = (letter: string) => {
         if (GAME_DONE !== 'DONE') {
-            const event = new CustomEvent('letterSent', {
+            window.dispatchEvent(new CustomEvent('letterSent', {
                 detail: { letter }
-            });
-            window.dispatchEvent(event);
+            }));
         }
     }
 
     const delLetter = () => {
         if (GAME_DONE !== 'DONE') {
-            const event = new CustomEvent('deleteLetter');
-            window.dispatchEvent(event);
+            window.dispatchEvent(new CustomEvent('deleteLetter'));
         }
     }
 
     const enterKey = () => {
         if (GAME_DONE !== 'DONE') {
-            const event = new CustomEvent('enterPressed');
-            window.dispatchEvent(event);
+            window.dispatchEvent(new CustomEvent('enterPressed'));
         }
     }
 

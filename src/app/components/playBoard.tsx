@@ -13,8 +13,7 @@ export default function PlayBoard() {
             const check = e.detail.message;
             if(check === 'Correct Guess') {
                 setMessage('You made the correct guess!');
-                const event = new CustomEvent("finished");
-                window.dispatchEvent(event);
+                window.dispatchEvent(new CustomEvent("finished"));
             } else if(check === 'Wrong Guess') { 
                 // typically only changes UI, might add some event later
                 // placeholder in-case
@@ -26,8 +25,7 @@ export default function PlayBoard() {
                 // if the wrong word is given on 6th att
                 const word = e.detail.word.toUpperCase();
                 setMessage("You didn't get it! The word is " + word + "!");
-                const event = new CustomEvent("finished");
-                window.dispatchEvent(event);
+                window.dispatchEvent(new CustomEvent("finished"));
             }
             clearTimeout(timeoutId);
 

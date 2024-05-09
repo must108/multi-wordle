@@ -3,8 +3,7 @@
 export default function Title() {
 
     const toggleTitle = () => {
-        const event = new CustomEvent('titleToggle');
-        window.dispatchEvent(event);
+        window.dispatchEvent(new CustomEvent('titleToggle'));
     }
 
     return (

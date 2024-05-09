@@ -99,11 +99,9 @@ function Row({ isActive }: any) {
                         correctWord, lettersRef);
                 } else {
                     const message = 'Not enough letters'
-                    const event = new CustomEvent('wordCheck', {
+                    window.dispatchEvent(new CustomEvent('wordCheck', {
                         detail: { message } 
-                    });
-                    
-                    window.dispatchEvent(event);
+                    }));
                 }
             }
 
@@ -114,12 +112,10 @@ function Row({ isActive }: any) {
                         inputValid(submitWord, letters, wordArr, 
                             correctWord, lettersRef);
                     } else {
-                        const message = 'Not enough letters'
-                        const event = new CustomEvent('wordCheck', {
+                        const message = 'Not enough letters'   
+                        window.dispatchEvent(new CustomEvent('wordCheck', {
                             detail: { message } 
-                        });
-                            
-                        window.dispatchEvent(event);
+                        }));
                     }
                 }
             } // handles submission of word for input validation
@@ -187,45 +183,36 @@ function inputValid(submitWord: string, letters: string[],
 
     submitWord = letters.join('');
     if(wordArr.includes(submitWord)) {
-        const event = new CustomEvent('sendEnter');
+        window.dispatchEvent(new CustomEvent('sendEnter'));
 
-        window.dispatchEvent(event);
         if(submitWord === correctWord) {
             const message = 'Correct Guess'
-            const event = new CustomEvent('wordCheck', {
+            window.dispatchEvent(new CustomEvent('wordCheck', {
                 detail: { message }
-            });
-
-            window.dispatchEvent(event);
+            }));
             colorLetters(correctWord, submitWord, lettersRef);
         } else {
             if (currRow === NUM_GUESSES - 1) {
                 const message = 'Wrong Answer'
                 const word = correctWord
-                const event = new CustomEvent('wordCheck', {
+                window.dispatchEvent(new CustomEvent('wordCheck', {
                     detail: { message, word }
-                });
-
-                window.dispatchEvent(event);
+                }));
                 colorLetters(correctWord, submitWord, lettersRef);
             } else {
                 const message = 'Wrong Guess'
-                const event = new CustomEvent('wordCheck', {
+                window.dispatchEvent(new CustomEvent('wordCheck', {
                     detail: { message } 
-                });
-
-                window.dispatchEvent(event);
+                }));
                 colorLetters(correctWord, submitWord, lettersRef);
             }
         }
         currRow += 1;
     } else {
         const message = 'Not a word';
-        const event = new CustomEvent('wordCheck', {
+        window.dispatchEvent(new CustomEvent('wordCheck', {
             detail: { message }
-        });
-
-        window.dispatchEvent(event);
+        }));
     }
 } // main function for input validation of words.
 
@@ -245,10 +232,9 @@ function colorLetters(correctWord: string, submitWord: string,
             const letter = elem!.textContent;
             elem!.classList.add('wrongLetter', 'bg-[#333333]');
 
-            const event = new CustomEvent('fadeLetter', {
+            window.dispatchEvent(new CustomEvent('fadeLetter', {
                 detail: { letter }
-            });
-            window.dispatchEvent(event);
+            }));
         }
     }
 } // to color letters as right
@@ -262,8 +248,7 @@ const handleMode = (e: CustomEvent) => {
     WORD_SIZE = size;
     RANDOM_NUMBER = randNum(WORD_SIZE);
     GAME_TYPE = mode;
-    const event = new CustomEvent('gameToggle');
-    window.dispatchEvent(event);
+    window.dispatchEvent(new CustomEvent('gameToggle'));
 };
 
 function randNum(max: number) {
