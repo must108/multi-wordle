@@ -124,17 +124,15 @@ function Row({ isActive }: any) {
                 }
             } // handles submission of word for input validation
 
-            const gameDone = (e: CustomEvent) => {
-                GAME_DONE = 'DONE';
-            }
-    
             window.addEventListener('letterSent', 
                 handleLetter as EventListener);
             window.addEventListener('deleteLetter', 
                 delLetter as EventListener);
             window.addEventListener('enterPressed', 
                 sendEnter as EventListener);
-            window.addEventListener('finished', gameDone as EventListener);
+            window.addEventListener('finished', () => {
+                GAME_DONE = 'DONE';
+            });
             if (GAME_DONE !== 'DONE') {
                 window.addEventListener('keydown', handleKeyboardLetter);
                 window.addEventListener('keydown', backSpace);
@@ -148,8 +146,7 @@ function Row({ isActive }: any) {
                     delLetter as EventListener);
                 window.removeEventListener('enterPressed', 
                     sendEnter as EventListener);
-                window.removeEventListener('finished', 
-                    gameDone as EventListener);
+                window.removeEventListener('finished', () => {});
                 window.removeEventListener('keydown', handleKeyboardLetter);
                 window.removeEventListener('keydown', backSpace);
                 window.removeEventListener('keyup', 

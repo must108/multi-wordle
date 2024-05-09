@@ -23,15 +23,13 @@ export default function Keyboard({ keys }: KeyboardProps){
             ele!.classList.add('opacity-25');
         };
 
-        const gameDone = (e: CustomEvent) => {
+        window.addEventListener('finished', () => {
             GAME_DONE = 'DONE';
-        }
-
-        window.addEventListener('finished', gameDone as EventListener);
+        });
         window.addEventListener('fadeLetter', handleFade as EventListener);
 
         return () => {
-            window.removeEventListener('finished', gameDone as EventListener);
+            window.removeEventListener('finished', () => {});
             window.removeEventListener('fadeLetter', 
                         handleFade as EventListener);
         }
