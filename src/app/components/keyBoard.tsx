@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 
+let GAME_DONE: string = "";
+
 interface Key {
     key: string;
 }
@@ -21,7 +23,18 @@ export default function Keyboard({ keys }: KeyboardProps){
             ele!.classList.add('opacity-25');
         };
 
+        const gameDone = (e: CustomEvent) => {
+            GAME_DONE = 'DONE';
+        }
+
+        window.addEventListener('finished', gameDone as EventListener);
         window.addEventListener('fadeLetter', handleFade as EventListener);
+
+        return () => {
+            window.removeEventListener('finished', gameDone as EventListener);
+            window.removeEventListener('fadeLetter', 
+                        handleFade as EventListener);
+        }
     }, []);
 
     useEffect(() => {
@@ -30,20 +43,26 @@ export default function Keyboard({ keys }: KeyboardProps){
     }, [keys]);
 
     const sendLetter = (letter: string) => {
-        const event = new CustomEvent('letterSent', {
-            detail: { letter }
-        });
-        window.dispatchEvent(event);
+        if (GAME_DONE !== 'DONE') {
+            const event = new CustomEvent('letterSent', {
+                detail: { letter }
+            });
+            window.dispatchEvent(event);
+        }
     }
 
     const delLetter = () => {
-        const event = new CustomEvent('deleteLetter');
-        window.dispatchEvent(event);
+        if (GAME_DONE !== 'DONE') {
+            const event = new CustomEvent('deleteLetter');
+            window.dispatchEvent(event);
+        }
     }
 
     const enterKey = () => {
-        const event = new CustomEvent('enterPressed');
-        window.dispatchEvent(event);
+        if (GAME_DONE !== 'DONE') {
+            const event = new CustomEvent('enterPressed');
+            window.dispatchEvent(event);
+        }
     }
 
     return (

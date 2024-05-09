@@ -9,6 +9,7 @@ let WORD_SIZE: number;
 let RANDOM_NUMBER: number;
 let GAME_TYPE: string;
 let currRow: number = 0;
+let GAME_DONE = "";
 
 export default function Board() {
     const [active, setActive] = useState(1);
@@ -122,26 +123,35 @@ function Row({ isActive }: any) {
                     }
                 }
             } // handles submission of word for input validation
+
+            const gameDone = (e: CustomEvent) => {
+                GAME_DONE = 'DONE';
+            }
     
             window.addEventListener('letterSent', 
                 handleLetter as EventListener);
             window.addEventListener('deleteLetter', 
                 delLetter as EventListener);
-            window.addEventListener('keydown', handleKeyboardLetter);
-            window.addEventListener('keydown', backSpace);
             window.addEventListener('enterPressed', 
                 sendEnter as EventListener);
-            window.addEventListener('keyup', sendEnterKey as EventListener);
+            window.addEventListener('finished', gameDone as EventListener);
+            if (GAME_DONE !== 'DONE') {
+                window.addEventListener('keydown', handleKeyboardLetter);
+                window.addEventListener('keydown', backSpace);
+                window.addEventListener('keyup', sendEnterKey as EventListener);
+            }
     
             return () => {
                 window.removeEventListener('letterSent', 
                     handleLetter as EventListener);
                 window.removeEventListener('deleteLetter', 
                     delLetter as EventListener);
-                window.removeEventListener('keydown', handleKeyboardLetter);
-                window.removeEventListener('keydown', backSpace);
                 window.removeEventListener('enterPressed', 
                     sendEnter as EventListener);
+                window.removeEventListener('finished', 
+                    gameDone as EventListener);
+                window.removeEventListener('keydown', handleKeyboardLetter);
+                window.removeEventListener('keydown', backSpace);
                 window.removeEventListener('keyup', 
                     sendEnterKey as EventListener);
             };
@@ -262,7 +272,6 @@ const handleMode = (e: CustomEvent) => {
 function randNum(max: number) {
     return Math.floor(Math.random() * max) + 1;
 }
-
 
 if (typeof window !== 'undefined') {
     window.addEventListener('modeSelect', handleMode as EventListener);
