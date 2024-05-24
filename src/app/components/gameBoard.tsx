@@ -222,15 +222,16 @@ function colorLetters(correctWord: string, submitWord: string,
     for(let i = 0; i < NUM_BOXES; i++) {
         const elem = lettersRef.current[i];
         if(correctWord[i] === submitWord[i]) {
-            elem!.classList.add('correctLetter', 'bg-[#333333]', 
-                'text-green-700');
+            elem!.classList.add('correctLetter', 'bg-[#538D4E]', 
+                'border-[#538D4E]');
         } else if(correctWord.includes(submitWord[i])) {
-            elem!.classList.add('containsLetter', 'bg-[#333333]', 
-                'text-yellow-300');
+            elem!.classList.add('containsLetter', 'bg-[#C6B55C]', 
+                'border-[#C6B55C]');
         } else if(!correctWord.includes(submitWord[i]) && 
             correctWord[i] !== submitWord[i]) {
             const letter = elem!.textContent;
-            elem!.classList.add('wrongLetter', 'bg-[#333333]');
+            elem!.classList.add('wrongLetter', 'bg-[#3A3A3C]',
+                'border-[#3A3A3C]');
 
             window.dispatchEvent(new CustomEvent('fadeLetter', {
                 detail: { letter }
