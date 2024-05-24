@@ -33,13 +33,15 @@ export default function Title() {
         <>
             <div className="flex flex-col items-center 
                 justify-center h-[95vh]">
-                <h1 className={`font-bold text-6xl sm:text-7xl py-5 ${titleOpacity} 
-                transition-opacity delay-300`}>multi-wordle</h1>
+                <h1 className={`font-bold text-6xl sm:text-7xl py-5 
+                ${titleOpacity} transition-opacity delay-300`}
+                >multi-wordle</h1>
                 <button className={`font-bold text-white bg-carolina-blue py-2 
                         px-4 rounded-md outline-none focus:outline-none
-                        hover:bg-hover-carol-blue transition-colors delay-50
-                        ${buttonOpacity} transition-opacity delay-300` }
-                    onClick={() => toggleTitle()}>play</button>
+                        hover:bg-hover-carol-blue transition-colors delay-300
+                        ${buttonOpacity}` }
+                    onClick={() => toggleTitle()}
+                    >play</button>
             </div>
         </>
     )
