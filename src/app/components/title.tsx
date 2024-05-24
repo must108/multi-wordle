@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { title } from "process";
@@ -11,12 +12,10 @@ export default function Title() {
         clearTimeout(titleTimeout);
         clearTimeout(buttonTimeout);
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         titleTimeout = setTimeout(() => {
             setTitleOpacity("opacity-100");
         }, 700);
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         buttonTimeout = setTimeout(() => {
             setButtonOpacity("opacity-100");
         }, 1400);
@@ -36,12 +35,17 @@ export default function Title() {
                 <h1 className={`font-bold text-6xl sm:text-7xl py-5 
                 ${titleOpacity} transition-opacity delay-300`}
                 >multi-wordle</h1>
-                <button className={`font-bold text-white bg-carolina-blue py-2 
-                        px-4 rounded-md outline-none focus:outline-none
-                        hover:bg-hover-carol-blue transition-colors delay-300
-                        ${buttonOpacity}` }
+                <div className={`${buttonOpacity} transition-opacity 
+                delay-300`}
+                >
+                    <button className={`font-bold text-white 
+                    bg-carolina-blue py-2 px-4 rounded-md 
+                    outline-none focus:outline-none
+                    hover:bg-hover-carol-blue 
+                    transition-colors delay-50` }
                     onClick={() => toggleTitle()}
                     >play</button>
+                </div>
             </div>
         </>
     )
