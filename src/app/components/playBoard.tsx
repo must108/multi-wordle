@@ -8,7 +8,7 @@ import EndingModal from "./endingModal";
 
 export default function PlayBoard() {
     const [message, setMessage] = useState("");
-    const [opacity, setOpacity] = useState("0");
+    const [opacity, setOpacity] = useState("opacity-0");
 
     useEffect(() => {
         const handleNotWord = (e: CustomEvent) => {
@@ -25,10 +25,10 @@ export default function PlayBoard() {
                 // placeholder in-case
             } else if(check === 'Not a word') { 
                 setMessage('Not a valid word!');
-                setOpacity("100");
+                setOpacity("opacity-100");
             } else if(check === 'Not enough letters') {
                 setMessage('Not enough letters!');
-                setOpacity("100");
+                setOpacity("opacity-100");
             } else if(check === 'Wrong Answer') { 
                 // if the wrong word is given on 6th att
                 const word = e.detail.word.toUpperCase();
@@ -43,7 +43,7 @@ export default function PlayBoard() {
             clearTimeout(timeoutOpacity);
 
             timeoutOpacity = setTimeout(() => {
-                setOpacity("0");
+                setOpacity("opacity-0");
             }, 2500);
 
             timeoutMessage = setTimeout(() => {
@@ -71,7 +71,7 @@ export default function PlayBoard() {
             <div id="gameContainer" className="
                 flex flex-col items-center justify-center h-[95vh]">
                 <div className={`text-center text-white p-2 bg-gray-950 
-                rounded-md opacity-${opacity} transition-opacity delay-50 h-10
+                rounded-md ${opacity} transition-opacity delay-50 h-10
                 font-bold`}>
                     {message}
                 </div>

@@ -9,13 +9,13 @@ export default function EndingModal() {
         const endMessage = e.detail.endMessage;
 
         if(endMessage === 'Correct') {
-            setTitle("You guessed correctly!");
-            setBody("Choose below to return to the menu, play again, " +
+            setTitle("you guessed correctly!");
+            setBody("choose below to return to the menu, play again, " +
             "or choose a different gamemode!");
         } else if(endMessage === 'Incorrect') {
             const word = e.detail.word;
-            setTitle("You didn't get it!")
-            setBody("The word was " + word + ". Choose below to" + 
+            setTitle("you didn't get it!")
+            setBody("the word was " + word + ". choose below to" + 
             " return to the menu, play again, " +
             "or choose a different gamemode!");
         }
@@ -33,27 +33,22 @@ export default function EndingModal() {
 
     return (
         <>
+            <button className="p-2 bg-blue-500" onClick={() => setShowModal(true)}>
+                Show modal
+            </button>
             {showModal ? (
                 <>
                     <div
-                        className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+                        className="justify-center items-center flex flex-col overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                     >
-                        <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                        <div className="relative w-3/4 sm:w-1/2 md:w-1/4 my-6 mx-auto max-w-3xl">
                         {/*content*/}
                         <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-[#333333] outline-none focus:outline-none">
                             {/*header*/}
-                            <div className="flex text-center p-4 rounded-t">
-                            <h3 className="text-3xl font-semibold text-white">
+                            <div className="flex justify-center p-4 rounded-t">
+                            <h3 className="text-3xl text-center font-semibold text-white">
                                 {title}
                             </h3>
-                            <button
-                                className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                                onClick={() => setShowModal(false)}
-                            >
-                                <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                                &times;
-                                </span>
-                            </button>
                             </div>
                             {/*body*/}
                             <div className="relative p-6 flex-auto">
@@ -62,21 +57,34 @@ export default function EndingModal() {
                             </p>
                             </div>
                             {/*footer*/}
-                            <div className="flex items-center justify-end p-6 rounded-b">
-                            <button
-                                className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                type="button"
-                                onClick={() => setShowModal(false)}
-                            >
-                                Close
-                            </button>
-                            <button
-                                className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                type="button"
-                                onClick={() => setShowModal(false)}
-                            >
-                                Save Changes
-                            </button>
+                            <div className="flex items-center justify-center p-6 gap-3 rounded-b">
+                                <button className="font-bold text-white bg-carolina-blue py-2 
+                                px-4 rounded-md outline-none focus:outline-none
+                                hover:bg-hover-carol-blue transition-colors delay-50"
+                                onClick={() => {}}>
+                                    again
+                                </button>
+                                <button
+                                    className="font-bold text-white bg-carolina-blue py-2 
+                                    px-4 rounded-md outline-none focus:outline-none
+                                    hover:bg-hover-carol-blue transition-colors delay-50"
+                                    type="button"
+                                    onClick={() => setShowModal(false)}
+                                >
+                                    mode
+                                </button>
+                                <button
+                                    className="font-bold text-white bg-carolina-blue py-2 
+                                    px-4 rounded-md outline-none focus:outline-none
+                                    hover:bg-hover-carol-blue transition-colors delay-50"
+                                    type="button"
+                                    onClick={() => setShowModal(false)}
+                                >
+                                    menu
+                                </button>
+                                <button>
+
+                                </button>
                             </div>
                         </div>
                         </div>
