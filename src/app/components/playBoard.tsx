@@ -4,6 +4,7 @@ import Board from "./gameBoard";
 import Keyboard from "./keyBoard";
 import keys from "../keys";
 import React, { useState, useEffect } from 'react';
+import EndingModal from "./endingModal";
 
 export default function PlayBoard() {
     const [message, setMessage] = useState("");
@@ -13,9 +14,12 @@ export default function PlayBoard() {
         const handleNotWord = (e: CustomEvent) => {
             const check = e.detail.message;
             if(check === 'Correct Guess') {
-                setMessage('You made the correct guess!');
+                // setMessage('You made the correct guess!');
+                let endMessage = "Correct";
+                window.dispatchEvent(new CustomEvent("endModal", {
+                    detail: { endMessage },
+                }));
                 window.dispatchEvent(new CustomEvent("finished"));
-                setOpacity("100");
             } else if(check === 'Wrong Guess') { 
                 // typically only changes UI, might add some event later
                 // placeholder in-case
@@ -28,8 +32,11 @@ export default function PlayBoard() {
             } else if(check === 'Wrong Answer') { 
                 // if the wrong word is given on 6th att
                 const word = e.detail.word.toUpperCase();
-                setMessage("You didn't get it! The word is " + word + "!");
-                setOpacity("100");
+                let endMessage = "Incorrect";
+                // setMessage("You didn't get it! The word is " + word + "!");
+                window.dispatchEvent(new CustomEvent("endModal", {
+                    detail: { endMessage, word }
+                }));
                 window.dispatchEvent(new CustomEvent("finished"));
             }
             clearTimeout(timeoutMessage);
@@ -70,6 +77,7 @@ export default function PlayBoard() {
                 </div>
                 <Board />
                 <Keyboard keys={keys} />
+                <EndingModal />
             </div>
         </>
     )
