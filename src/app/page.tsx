@@ -21,8 +21,16 @@ export default function Home() {
           setShowGame(true);
       });
 
+      window.addEventListener('showTitle', () => {
+        setShowTitle(true);
+        setShowMode(false);
+        setShowGame(false);
+      });
+
       return () => {
           window.removeEventListener('titleToggle', () => {});
+          window.removeEventListener('gameToggle', () => {});
+          window.removeEventListener('showTitle', () => {});
       }
 
   }, []);

@@ -4,6 +4,9 @@ export default function EndingModal() {
     const [showModal, setShowModal] = useState(false);
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
+    const [len, setLen] = useState(0);
+    const [size, setSize] = useState(0);
+    const [wordType, setWordType] = useState("");
 
     const handleModal = (e: CustomEvent) => {
         const endMessage = e.detail.endMessage;
@@ -23,11 +26,22 @@ export default function EndingModal() {
         setShowModal(true);
     }
 
+    const handleMode = (e: CustomEvent) => {
+        let len = e.detail.len;
+        let size = e.detail.size;
+        let mode = e.detail.mode;
+        setLen(len);
+        setSize(size);
+        setWordType(mode);
+    }
+
     useEffect(() => {
         window.addEventListener('endModal', handleModal as EventListener);
+        window.addEventListener('modeSelect', handleMode as EventListener);
 
         return () => {
             window.removeEventListener('endModal', handleModal as EventListener);
+            window.removeEventListener('modeSelect', handleMode as EventListener);
         }
     }, []);
 
@@ -35,6 +49,18 @@ export default function EndingModal() {
         window.dispatchEvent(new CustomEvent("titleToggle"));
         setShowModal(false);
     };
+
+    const handleMenuBack = () => {
+        window.dispatchEvent(new CustomEvent("showTitle"));
+        setShowModal(false);
+    };
+
+    const handleAgain = () => {
+        window.dispatchEvent(new CustomEvent("modeSelect", {
+            detail: { len, size, wordType }
+        }));
+        setShowModal(false);
+    }
 
     return (
         <>
@@ -66,7 +92,7 @@ export default function EndingModal() {
                                 <button className="font-bold text-white bg-carolina-blue py-2 
                                 px-4 rounded-md outline-none focus:outline-none
                                 hover:bg-hover-carol-blue transition-colors delay-50"
-                                onClick={() => {setShowModal(false)}}>
+                                onClick={() => handleAgain()}>
                                     again
                                 </button>
                                 <button
@@ -83,7 +109,7 @@ export default function EndingModal() {
                                     px-4 rounded-md outline-none focus:outline-none
                                     hover:bg-hover-carol-blue transition-colors delay-50"
                                     type="button"
-                                    onClick={() => setShowModal(false)}
+                                    onClick={() => handleMenuBack()}
                                 >
                                     menu
                                 </button>

@@ -14,7 +14,6 @@ export default function PlayBoard() {
         const handleNotWord = (e: CustomEvent) => {
             const check = e.detail.message;
             if(check === 'Correct Guess') {
-                // setMessage('You made the correct guess!');
                 let endMessage = "Correct";
                 window.dispatchEvent(new CustomEvent("endModal", {
                     detail: { endMessage },
@@ -33,7 +32,6 @@ export default function PlayBoard() {
                 // if the wrong word is given on 6th att
                 const word = e.detail.word.toUpperCase();
                 let endMessage = "Incorrect";
-                // setMessage("You didn't get it! The word is " + word + "!");
                 window.dispatchEvent(new CustomEvent("endModal", {
                     detail: { endMessage, word }
                 }));
@@ -71,7 +69,7 @@ export default function PlayBoard() {
             <div id="gameContainer" className="
                 flex flex-col items-center justify-center h-[95vh]">
                 <div className={`text-center text-white p-2 bg-gray-950 
-                rounded-md ${opacity} transition-opacity delay-50 h-10
+                rounded-md ${opacity} transition-all delay-50 h-10
                 font-bold`}>
                     {message}
                 </div>
