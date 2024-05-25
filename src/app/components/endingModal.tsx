@@ -31,6 +31,11 @@ export default function EndingModal() {
         }
     }, []);
 
+    const handleModeChange = () => {
+        window.dispatchEvent(new CustomEvent("titleToggle"));
+        setShowModal(false);
+    };
+
     return (
         <>
             <button className="p-2 bg-blue-500" onClick={() => setShowModal(true)}>
@@ -61,7 +66,7 @@ export default function EndingModal() {
                                 <button className="font-bold text-white bg-carolina-blue py-2 
                                 px-4 rounded-md outline-none focus:outline-none
                                 hover:bg-hover-carol-blue transition-colors delay-50"
-                                onClick={() => {}}>
+                                onClick={() => {setShowModal(false)}}>
                                     again
                                 </button>
                                 <button
@@ -69,7 +74,7 @@ export default function EndingModal() {
                                     px-4 rounded-md outline-none focus:outline-none
                                     hover:bg-hover-carol-blue transition-colors delay-50"
                                     type="button"
-                                    onClick={() => setShowModal(false)}
+                                    onClick={() => handleModeChange()}
                                 >
                                     mode
                                 </button>
