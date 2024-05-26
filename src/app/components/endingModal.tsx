@@ -64,9 +64,6 @@ export default function EndingModal() {
 
     return (
         <>
-            <button className="p-2 bg-blue-500" onClick={() => setShowModal(true)}>
-                Show modal
-            </button>
             {showModal ? (
                 <>
                     <div
