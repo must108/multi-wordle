@@ -3,8 +3,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Words } from './handleWord';
 
-const NUM_GUESSES = 6;
-let NUM_BOXES: number;
+export const NUM_GUESSES = 6;
+export let NUM_BOXES: number;
 let WORD_SIZE: number;
 let RANDOM_NUMBER: number;
 let GAME_TYPE: string;
@@ -161,10 +161,11 @@ function Row({ isActive }: any) {
     const lettersRef = useRef<(HTMLDivElement | null)[]>([]);
 
         return (
-            <>
+            <div className="row-render">
                 <div className="letter-row flex">
                     {[...Array(NUM_BOXES)].map((_, i) => (
                         <div key={i} 
+                        id={i === 0 ? 'first-letter-box' : ''}
                         ref={(ref) => {
                             if(ref) {
                                 lettersRef.current[i] = ref as HTMLDivElement;
@@ -180,7 +181,7 @@ function Row({ isActive }: any) {
                         </div>
                     ))}
                 </div>
-            </>
+            </div>
         );
 } // handles creation of row and input validation
 
