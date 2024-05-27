@@ -4,63 +4,36 @@ export default function EndingModal() {
     const [showModal, setShowModal] = useState(false);
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
-    const [len, setLen] = useState(0);
-    const [size, setSize] = useState(0);
-    const [wordType, setWordType] = useState("");
 
     const handleModal = (e: CustomEvent) => {
         const endMessage = e.detail.endMessage;
 
         if(endMessage === 'Correct') {
             setTitle("you guessed correctly!");
-            setBody("choose below to return to the menu, play again, " +
-            "or choose a different gamemode!");
+            setBody("click below to play again!");
         } else if(endMessage === 'Incorrect') {
             const word = e.detail.word;
             setTitle("you didn't get it!")
-            setBody("the word was " + word + ". choose below to" + 
-            " return to the menu, play again, " +
-            "or choose a different gamemode!");
+            setBody("the word was " + word + ". click below to" + 
+            " play again!");
         }
 
         setShowModal(true);
     }
 
-    const handleMode = (e: CustomEvent) => {
-        let len = e.detail.len;
-        let size = e.detail.size;
-        let mode = e.detail.mode;
-        setLen(len);
-        setSize(size);
-        setWordType(mode);
-    }
-
     useEffect(() => {
         window.addEventListener('endModal', handleModal as EventListener);
-        window.addEventListener('modeSelect', handleMode as EventListener);
 
         return () => {
             window.removeEventListener('endModal', handleModal as EventListener);
-            window.removeEventListener('modeSelect', handleMode as EventListener);
         }
     }, []);
 
-    const handleModeChange = () => {
-        window.dispatchEvent(new CustomEvent("titleToggle"));
-        setShowModal(false);
-    };
-
     const handleMenuBack = () => {
         window.dispatchEvent(new CustomEvent("showTitle"));
+        window.dispatchEvent(new CustomEvent("modeSelectAgain"));
         setShowModal(false);
     };
-
-    const handleAgain = () => {
-        window.dispatchEvent(new CustomEvent("modeSelect", {
-            detail: { len, size, wordType }
-        }));
-        setShowModal(false);
-    }
 
     return (
         <>
@@ -86,21 +59,6 @@ export default function EndingModal() {
                             </div>
                             {/*footer*/}
                             <div className="flex items-center justify-center p-6 gap-3 rounded-b">
-                                <button className="font-bold text-white bg-carolina-blue py-2 
-                                px-4 rounded-md outline-none focus:outline-none
-                                hover:bg-hover-carol-blue transition-colors delay-50"
-                                onClick={() => handleAgain()}>
-                                    again
-                                </button>
-                                <button
-                                    className="font-bold text-white bg-carolina-blue py-2 
-                                    px-4 rounded-md outline-none focus:outline-none
-                                    hover:bg-hover-carol-blue transition-colors delay-50"
-                                    type="button"
-                                    onClick={() => handleModeChange()}
-                                >
-                                    mode
-                                </button>
                                 <button
                                     className="font-bold text-white bg-carolina-blue py-2 
                                     px-4 rounded-md outline-none focus:outline-none
@@ -108,7 +66,7 @@ export default function EndingModal() {
                                     type="button"
                                     onClick={() => handleMenuBack()}
                                 >
-                                    menu
+                                    again
                                 </button>
                                 <button>
 

@@ -29,9 +29,16 @@ export default function Board() {
         window.addEventListener('sendEnter', 
             handleEnter as EventListener);
 
+        window.addEventListener('gameToggleAgain', () => {
+            setActive(1);
+            currRow = 0;
+            GAME_DONE = "";
+        });
+
         return () => {
             window.removeEventListener('sendEnter', 
                 handleEnter as EventListener);
+                window.removeEventListener('gameToggleAgain', () => {});
         }
     }, []);
 
@@ -252,10 +259,15 @@ const handleMode = (e: CustomEvent) => {
     window.dispatchEvent(new CustomEvent('gameToggle'));
 };
 
+const handleModeAgain = (e: CustomEvent) => {
+    window.dispatchEvent(new CustomEvent('gameToggleAgain'));
+}
+
 function randNum(max: number) {
     return Math.floor(Math.random() * max) + 1;
 }
 
 if (typeof window !== 'undefined') {
     window.addEventListener('modeSelect', handleMode as EventListener);
+    window.addEventListener('modeSelectAgain', handleModeAgain as EventListener);
 }
