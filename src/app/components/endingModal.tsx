@@ -44,7 +44,7 @@ export default function EndingModal() {
                     >
                         <div className="relative w-3/4 sm:w-1/2 md:w-1/4 my-6 mx-auto max-w-3xl">
                         {/*content*/}
-                        <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-[#333333] outline-none focus:outline-none">
+                        <div id="header-1" className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-[#333333] outline-none focus:outline-none">
                             {/*header*/}
                             <div className="flex justify-center p-4 rounded-t">
                             <h3 className="text-3xl text-center font-semibold text-white">
