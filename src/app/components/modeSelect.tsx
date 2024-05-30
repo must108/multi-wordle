@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Words } from "./handleWord";
 
 export function ModeSelect() { 
     const [titleOpacity, setTitleOpacity] = useState("opacity-0");

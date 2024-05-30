@@ -10,7 +10,12 @@ let RANDOM_NUMBER: number;
 let GAME_TYPE: string;
 let currRow: number = 0;
 let GAME_DONE = "";
-let [fourArr, fiveArr, sixArr] = Words();
+
+function getWords() {
+    let [fourArr, fiveArr, sixArr] = Words();
+
+    return [fourArr, fiveArr, sixArr];
+}
 
 export default function Board() {
     const [active, setActive] = useState(1);
@@ -56,6 +61,7 @@ export default function Board() {
 
 function Row({ isActive }: any) {
     const [letters, setLetters] = useState<string[]>([]);
+    let [fourArr, fiveArr, sixArr] = getWords();
     let wordArr: string[];
 
     if(GAME_TYPE === 'fourletter') {
