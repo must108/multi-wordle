@@ -54,6 +54,7 @@ export default function Board() {
 } // creates the "board" for typing words
 
 function Row({ isActive }: any) {
+    let [ tempArr ] = Words();
     const [letters, setLetters] = useState<string[]>([]);
     let [fourArr, fiveArr, sixArr] = Words();
     let wordArr: string[];
