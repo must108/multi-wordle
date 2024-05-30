@@ -10,6 +10,7 @@ let RANDOM_NUMBER: number;
 let GAME_TYPE: string;
 let currRow: number = 0;
 let GAME_DONE = "";
+let [fourArr, fiveArr, sixArr] = Words();
 
 export default function Board() {
     const [active, setActive] = useState(1);
@@ -54,9 +55,7 @@ export default function Board() {
 } // creates the "board" for typing words
 
 function Row({ isActive }: any) {
-    let [ tempArr ] = Words();
     const [letters, setLetters] = useState<string[]>([]);
-    let [fourArr, fiveArr, sixArr] = Words();
     let wordArr: string[];
 
     if(GAME_TYPE === 'fourletter') {
