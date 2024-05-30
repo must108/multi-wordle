@@ -8,30 +8,37 @@ export function Words() {
     const [fiveLetterArray, setFiveLetterArray] = 
         useState<string[] | null>([]);
     const [sixLetterArray, setSixLetterArray] = useState<string[] | null>([]);
+    const [isFetched, setIsFetched] = useState(false);
 
     useEffect(() => {
+        if (isFetched) return;
 
         async function fetchWords() {
             try {
-                const resFour = await fetch(`https://multi-wordle-server-8e1b459f5b88.herokuapp.com/api/words?word=fourletter`);
-                const resFive = await fetch(`https://multi-wordle-server-8e1b459f5b88.herokuapp.com/api/words?word=fiveletter`);
-                const resSix = await fetch(`https://multi-wordle-server-8e1b459f5b88.herokuapp.com/api/words?word=sixletter`);
+                const [resFour, resFive, resSix] = await Promise.all([
+                    fetch(`https://multi-wordle-server-8e1b459f5b88.herokuapp.com/api/words?word=fourletter`),
+                    fetch(`https://multi-wordle-server-8e1b459f5b88.herokuapp.com/api/words?word=fiveletter`),
+                    fetch(`https://multi-wordle-server-8e1b459f5b88.herokuapp.com/api/words?word=sixletter`),
+                ]);
                 if(!resFour.ok || !resFive.ok || !resSix.ok) {
                     throw new Error('failed to fetch data');
                 }
-                const fourData = await resFour.json();
-                const fiveData = await resFive.json();
-                const sixData = await resSix.json();
+                const [fourData, fiveData, sixData] = await Promise.all([
+                    resFour.json(),
+                    resFive.json(),
+                    resSix.json()
+                ]);
                 setFourLetterArray(fourData);
                 setFiveLetterArray(fiveData);
                 setSixLetterArray(sixData);
+                setIsFetched(true);
             } catch (error) {
                 console.error('error fetching words: ', error);
             }
         }
 
         fetchWords();
-    }, []);
+    }, [isFetched]);
 
     return [fourLetterArray, fiveLetterArray, sixLetterArray];
 }
