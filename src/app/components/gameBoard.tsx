@@ -156,6 +156,7 @@ function Row({ isActive }: any) {
                     sendEnterKey as EventListener);
             };
         }
+        // eslint-disable-next-line
     }, [letters, isActive]);
 
     const lettersRef = useRef<(HTMLDivElement | null)[]>([]);
