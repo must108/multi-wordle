@@ -13,9 +13,9 @@ export function Words() {
 
         async function fetchWords() {
             try {
-                const resFour = await fetch(`/api?word=fourletter`);
-                const resFive = await fetch(`/api?word=fiveletter`);
-                const resSix = await fetch(`/api?word=sixletter`);
+                const resFour = await fetch(`https://multi-wordle-server-8e1b459f5b88.herokuapp.com/api/words?word=fourletter`);
+                const resFive = await fetch(`https://multi-wordle-server-8e1b459f5b88.herokuapp.com/api/words?word=fiveletter`);
+                const resSix = await fetch(`https://multi-wordle-server-8e1b459f5b88.herokuapp.com/api/words?word=sixletter`);
                 if(!resFour.ok || !resFive.ok || !resSix.ok) {
                     throw new Error('failed to fetch data');
                 }
