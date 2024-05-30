@@ -1,5 +1,5 @@
 // import { NextResponse } from "next/server";
-// import prisma from "../lib/prisma";
+// import prisma from "./src/app/lib/prisma";
 
 // export async function getWord(word: string) {
 //     let data; 
@@ -35,4 +35,4 @@
 //     }
 // }
 
-// commented out as a server is hosted on heroku
+// // commented out as a server is hosted on heroku

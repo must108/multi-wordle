@@ -25,5 +25,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/words.js", "__tests__/setupTests.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "ext.ts"]
 }
