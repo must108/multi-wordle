@@ -30,22 +30,33 @@ export default function Title() {
 
     return (
         <>
-            <div className="flex flex-col items-center 
-                justify-center h-[95vh]">
-                <h1 className={`font-bold text-6xl sm:text-7xl py-5 
-                ${titleOpacity} transition-opacity delay-300`}
-                >multi-wordle</h1>
-                <div className={`${buttonOpacity} transition-opacity 
-                delay-300`}
-                >
-                    <button className={`font-bold text-white 
-                    bg-carolina-blue py-2 px-4 rounded-md 
-                    outline-none focus:outline-none
-                    hover:bg-hover-carol-blue 
-                    transition-colors delay-50` }
-                    onClick={() => toggleTitle()}
-                    >play</button>
+            <div className="flex flex-col items-center h-[100vh]">
+                <div className="flex flex-col items-center 
+                    justify-center h-[95vh]">
+                    <h1 className={`font-bold text-6xl sm:text-7xl py-5 
+                    ${titleOpacity} transition-opacity delay-300`}
+                    >multi-wordle</h1>
+                    <div className={`${buttonOpacity} transition-opacity 
+                    delay-300`}
+                    >
+                        <button className={`font-bold text-white 
+                        bg-carolina-blue py-2 px-4 rounded-md 
+                        outline-none focus:outline-none
+                        hover:bg-hover-carol-blue 
+                        transition-colors delay-50` }
+                        onClick={() => toggleTitle()}
+                        >play</button>
+                    </div>
                 </div>
+                <p className="text-xs mt-auto
+                font-bold text-[#6e6e6e]">built by <a 
+                href="https://github.com/must108"
+                target="_blank"
+                className="hover:underline"
+                    >
+                        must
+                    </a>
+                </p>
             </div>
         </>
     )
