@@ -68,6 +68,7 @@ function Row({ isActive }: any) {
         wordArr = fourArr!.map(word => word.toLowerCase());
     } else if(GAME_TYPE === 'fiveletter') {
         wordArr = fiveArr!.map(word => word.toLowerCase());
+        console.log(fiveArr?.length)
     } else if(GAME_TYPE === 'sixletter') {
         wordArr = sixArr!.map(word => word.toLowerCase());
     } else {

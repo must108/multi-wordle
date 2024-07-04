@@ -16,9 +16,9 @@ export function Words() {
         async function fetchWords() {
             try {
                 const [resFour, resFive, resSix] = await Promise.all([
-                    fetch('https://multi-wordle-server-8e1b459f5b88.herokuapp.com/api/words?word=fourletter'),
-                    fetch('https://multi-wordle-server-8e1b459f5b88.herokuapp.com/api/words?word=fiveletter'),
-                    fetch('https://multi-wordle-server-8e1b459f5b88.herokuapp.com/api/words?word=sixletter'),
+                    fetch(process.env.NEXT_PUBLIC_FOUR_LETTER!),
+                    fetch(process.env.NEXT_PUBLIC_FIVE_LETTER!),
+                    fetch(process.env.NEXT_PUBLIC_SIX_LETTER!),
                 ]);
                 if(!resFour.ok || !resFive.ok || !resSix.ok) {
                     throw new Error('failed to fetch data');
