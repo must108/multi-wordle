@@ -1,0 +1,16 @@
+name: "Setup and install"
+description: "Node setup and npm install for actions"
+
+runs:
+  using: composite
+  steps:
+      - uses: actions/checkout@v4
+
+      - name: "Setup node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+        
