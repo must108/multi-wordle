@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  pull_request:
+    branches: ["*"]
+  push:
+    branches: ["main"]
+  merge_group:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Test (Vitest)
+        run: npm run test
