@@ -17,6 +17,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup
+        uses: './tooling/github/setup'
+
       - name: Lint
         run: npm run lint
   test:
@@ -24,13 +27,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-
-      - name: Install dependencies
-        run: npm install
+      - name: Setup
+        uses: './tooling/github/setup'
 
       - name: Test (Vitest)
         run: npm run test
