@@ -50,7 +50,7 @@ export default function Title() {
                 </div>
                 <p className="text-xs mt-auto
                 font-bold text-[#3b3b3b]">built by <a 
-                href="https://github.com/must108"
+                href="https://mustaeen.dev/"
                 target="_blank"
                 className="hover:underline"
                     >
